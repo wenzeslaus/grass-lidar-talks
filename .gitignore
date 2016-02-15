@@ -1,0 +1,8 @@
+build
+*.aux
+*.log
+*.nav
+*.snm
+*.toc
+*.out
+PetrasVaclav_ProjectPresentation.pdf
