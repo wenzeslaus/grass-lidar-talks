@@ -2,6 +2,7 @@
 
 build=build
 project_582=PetrasVaclav_ProjectPresentation
+fwstalk=petras_grass_lidar_fws
 
 # how many times repeat latex
 n=3
@@ -18,6 +19,9 @@ sed -e "s/aspectratio=1610/aspectratio=43/g" < ${project_582}.tex > ${project_58
 tex_to_pdf ${project_582} &
 tex_to_pdf ${project_582}_16x9 &
 tex_to_pdf ${project_582}_4x3 &
+
+tex_to_pdf ${fwstalk} &
+
 wait
 
 echo done
@@ -26,6 +30,8 @@ cp ${project_582}.pdf $build
 cp ${project_582}_16x9.pdf $build
 cp ${project_582}_4x3.pdf $build
 cp ${project_582}.pdf $build/${project_582}_16x10.pdf
+
+cp ${fwstalk}.pdf $build
 
 cp index.html ${build}/index.html
 

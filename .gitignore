@@ -5,4 +5,6 @@ build
 *.snm
 *.toc
 *.out
+*.backup
 PetrasVaclav_ProjectPresentation.pdf
+petras_grass_lidar_fws.pdf
