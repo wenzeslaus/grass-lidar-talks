@@ -161,19 +161,179 @@ North Carolina State University, Center for Geospatial Analytics \\
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{}
+\begin{frame}{GRASS GIS architecture}
 
-\begin{block}{Questions}
+\begin{columns}
+\begin{column}{0.4\textwidth}
+
+\begin{block}{Functionality}
  \begin{itemize}
-  \item How many points are really necessary to create a detailed DEM?
-  \item Which method of point decimation preserve more information?
- \end{itemize}
+  \item split to modules
+  \item independent of GUI
+  \item integrated to GUI
+  \item unified access to all functions
+\end{itemize}
 \end{block}
 
-\begin{block}{Implementation}
+\end{column}
+\begin{column}{0.4\textwidth}
+
+\begin{center}
+  \includegraphics[width=0.5\textwidth]{logos/grass_gis}
+\end{center}
+
+\end{column}
+\end{columns}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{GRASS GIS architecture}
+
+\begin{columns}
+\begin{column}{0.4\textwidth}
+
+\begin{block}{Modules}
  \begin{itemize}
-  \item Open source implementation for further review and improvement.
-  \item Methods implemented in GRASS GIS so that they can be used by a broad audience.
+%\begin{itemize}
+  \item GUI just one of the modules: g.gui, g.gui.gmodeler, g.gui.animation
+  \item all important ones available in the basic installation $>$500
+  \item extra and experimental modules in addons repository {\raise.17ex\hbox{$\scriptstyle\sim$}}250
+\end{itemize}
+
+% cd trunk/dist.x86_64-pc-linux-gnu
+% find scripts bin -executable -type f | wc
+
+% cd addons/grass7
+% find . -name "*.html" | wc
+
+\end{block}
+
+\end{column}
+\begin{column}{0.45\textwidth}
+
+\begin{center}
+  \includegraphics[width=\textwidth]{grass/count_and_modules}
+\end{center}
+
+\end{column}
+\end{columns}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{GRASS GIS architecture}
+
+\begin{columns}
+\begin{column}{0.4\textwidth}
+
+\begin{block}{General modules}
+g.list, g.remove, g.copy
+\end{block}
+
+\begin{block}{Raster modules}
+r.contour, r.watershed, r.li.patchdensity
+\end{block}
+
+\begin{block}{Vector modules}
+v.generalize, v.db.select, v.net.salesman
+\end{block}
+
+\end{column}
+\begin{column}{0.45\textwidth}
+
+\begin{center}
+  \includegraphics[width=\textwidth]{grass/basins}
+\end{center}
+
+\end{column}
+\end{columns}
+
+% \begin{block}{Modules}
+% \begin{tabular}{lll}
+% group & prefix & examples \\\hline
+% general & g. & g.list, g.remove, g.copy \\
+% raster & r. & r.contour, r.watershed, r.li.patchdensity \\
+% vector & v. & v.generalize, v.db.select, v.net.salesman \\
+% 3D raster & r3. & r3.mapcalc, r3.univar, r3.gwflow \\
+% imagery & i. & i.maxlik, i.pca, i.segment \\
+% temporal & t. & t.rast.aggregate, t.rast.accdetect, t.vect.univar \\
+% \end{tabular}
+% \end{block}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{GRASS GIS architecture}
+
+\begin{columns}
+\begin{column}{0.4\textwidth}
+
+\begin{block}{3D raster modules}
+r3.mapcalc, r3.univar, r3.gwflow
+\end{block}
+
+\begin{block}{Imagery modules}
+i.maxlik, i.pca, i.segment
+\end{block}
+
+\begin{block}{Temporal modules}
+t.rast.aggregate, t.rast.accdetect, t.vect.univar
+\end{block}
+
+\end{column}
+\begin{column}{0.45\textwidth}
+
+\begin{center}
+  \includegraphics[width=\textwidth]{grass/segment_on_counts}
+\end{center}
+
+% method=n class=2
+% method=n class=1
+% i.group
+% i.segement 0.75
+
+\end{column}
+\end{columns}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{frame}{GRASS GIS architecture}
+
+% \begin{block}{Modules}
+% \begin{tabular}{lll}
+% group & prefix & examples \\\hline
+% general & g. & g.list, g.remove, g.copy \\
+% raster & r. & r.contour, r.watershed, r.li.patchdensity \\
+% vector & v. & v.generalize, v.db.select, v.net.salesman \\
+% 3D raster & r3. & r3.mapcalc, r3.univar, r3.gwflow \\
+% imagery & i. & i.maxlik, i.pca, i.segment \\
+% temporal & t. & t.rast.aggregate, t.rast.accdetect, t.vect.univar \\
+% \end{tabular}
+% \end{block}
+
+% \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{GRASS GIS architecture}
+
+\begin{block}{Data}
+ \begin{itemize}
+  \item unified format and projection, vector and temporal topology
+    \begin{itemize}
+      \item solve data inconsistencies at the beginning, then focus only on the analysis
+    \end{itemize}
+  \item computation region (extent and resolution) independent of data
+    \begin{itemize}
+      \item all raster operations respect the region for inputs and outputs
+    \end{itemize}
+  \item exceptions: lidar data processing
+    \begin{itemize}
+      \item large point clouds
+      \item input for processing in point cloud formats
+    \end{itemize}
  \end{itemize}
 \end{block}
 
@@ -198,7 +358,7 @@ North Carolina State University, Center for Geospatial Analytics \\
 \end{block}
 
 \begin{small}
-also R: \texttt{execGRASS("r.in.lidar", file = "files.txt", output="max", method="max", ...)}
+also R: \texttt{execGRASS("r.in.lidar", file="files.txt", output="max", method="max", ...)}
 \end{small}
 
 \end{frame}
@@ -211,23 +371,212 @@ also R: \texttt{execGRASS("r.in.lidar", file = "files.txt", output="max", method
 
 \end{frame}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Typical lidar workflow}
 
-\begin{block}{\gmodule{r.in.lidar}}
- \begin{itemize}
-  \item depend on the side of output and type of analysis
-  \item can be reduced by \texttt{percent} option
-  \item on Linux available memory for process is RAM + SWAP partition
- \end{itemize}
-\end{block}
+\begin{columns}
+\begin{column}{0.5\textwidth}
 
+% \begin{block}{Explore the data with \gmodule{r.in.lidar}}
+Explore the data with \gmodule{r.in.lidar}
+ \begin{itemize}
+  \item import extent based on input data (\texttt{-e}~flag)
+  \item resolution set to high number (coarse, \texttt{resolution=10})
+  \item counting number of points per cell (\texttt{method=n})
+  \item trying different class and return filters (\texttt{class\_filter}, \texttt{return\_filter})
+  \item decide on computational region extent and resolution (\texttt{g.region})
+ \end{itemize}
+% \end{block}
+
+\end{column}
+\begin{column}{0.45\textwidth}
+
+\begin{center}
+  \includegraphics[width=0.75\textwidth]{grass/rinlidar_region}
+
+  \footnotesize
+  r.in.lidar, 578 million points in 90 files to 1882 $\times$ 1651 cells using 50MiB in 2 min
+
+% time r.in.lidar file=list_las_files.txt -e method=n output=count res=5 --o
+% 578628031 points from 90 files found in region
+%
+% r.in.lidar: 2m14.852s 50MiB
+% r.info map=count@all -g
+% north=3886000
+% south=3876590
+% east=281705
+% west=273450
+% nsres=5
+% ewres=5
+% rows=1882
+% cols=1651
+% cells=3107182
+% datatype=CELL
+% ncats=0
+%
+% r.in.lidar: 2m25.048s 1.2GiB
+% r.info map=count_2@all -g
+% north=3886000
+% south=3876590.5
+% east=281700.5
+% west=273452
+% nsres=0.5
+% ewres=0.5
+% rows=18819
+% cols=16497
+% cells=310457043
+% datatype=CELL
+% ncats=0
+
+% g.region rast=count_2@all
+% r.univar map=count_2@all -e
+% 30 sec
+
+\end{center}
+
+\end{column}
+\end{columns}
 
 \end{frame}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Typical lidar workflow}
 
+
+\begin{columns}
+\begin{column}{0.5\textwidth}
+
+Analyze with \gmodule{r.in.lidar}
+ \begin{itemize}
+  \item statistics of point counts, height and intensity
+  \item using different resolutions
+ \end{itemize}
+
+Create surface with \gmodule{v.in.lidar} and interpolation
+ \begin{itemize}
+  \item import selected points (spatial extent, classes and returns)
+  \item interpolate surface (\gmodule{v.surf.rst}, \gmodule{v.surf.bspline}, \gmodule{v.surf.idw})
+  \item smooth surface without NULL cells
+  \end{itemize}
+
+Continue analysis using standard GRASS GIS tools
+% rasterize soon (if you can)
+
+\end{column}
+\begin{column}{0.45\textwidth}
+
+\begin{center}
+  \includegraphics[width=0.8\textwidth]{grass/range_on_smooth_max_larger}
+
+  \footnotesize
+  r.in.lidar and r.neighbors, range smoothed maximum surface,
+  550927433 points from 90 files to 8076 x 7223 cells
+  using 480MiB in 4 min
+  % 1 + 37.262/60 + 1 + 47.132/60 + 11./60
+\end{center}
+
+% g.region -p
+% north:      3885316.5
+% south:      3877241.5
+% west:       273832
+% east:       281053
+% nsres:      0.5
+% ewres:      0.5
+% rows:       16150
+% cols:       14442
+% cells:      233238300
+
+% r.in.lidar max
+% 550927433 points from 90 files found in region
+% 920MiB
+% 1m39.372s
+
+% g.region -p
+% north:      3885316.5
+% south:      3877241.25
+% west:       273831.75
+% east:       281053.5
+% nsres:      0.75
+% ewres:      0.75
+% rows:       10767
+% cols:       9629
+% cells:      103675443
+
+% r.in.lidar max
+% 550927433 points from 90 files found in region
+% 430MiB
+% 1m38.932s
+
+
+% g.region -p
+% north:      3885317
+% south:      3877241
+% west:       273831
+% east:       281054
+% nsres:      1
+% ewres:      1
+% rows:       8076
+% cols:       7223
+% cells:      58332948
+
+% r.in.lidar max
+% 550927433 points from 90 files found in region
+% 250MiB
+% 1m37.262s
+
+% r.neighbors input=max size=7
+% 11 sec
+
+% r.in.lidar range
+% 550927433 points from 90 files found in region
+% 480MiB
+% 1m47.132s
+
+% r.in.lidar skewness
+% 551004149 points from 90 files found in region
+% 8.5 GiB
+% 3m10.144s
+
+% r.in.lidar mean class=2
+% 28669253 points from 90 files found in region
+% 480MiB
+% 2 min 10 sec
+
+% r.neighbors -c --overwrite input=ground_mean size=25
+% 2 min 33 sec
+
+\end{column}
+\end{columns}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{UAV/lidar Data Analytics course at NCSU}
+
+\begin{itemize}
+  \item openly (and freely) accessible study materials
+  \item GRASS GIS, Python, Agisoft Photoscan (proprietary), OpenDroneMap
+  \item \url{http://ncsu-osgeorel.github.io/uav-lidar-analytics-course/}
+\end{itemize}
+
+\centering
+\includegraphics[width=0.7\textwidth]{grass/range_on_smooth_max_larger}%
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{r.in.lidar}
+
+\begin{itemize}
+  \item
+\end{itemize}
+
+\centering
+\includegraphics[width=0.7\textwidth]{uav_flight_plan}%
+
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Count-based decimation influence on interpolated elevation}
@@ -490,7 +839,36 @@ This makes it little bit faster.
  \end{itemize}
 \end{block}
 
+\texttt{ERROR: G\_malloc: unable to allocate ... bytes of memory}\\
+\texttt{export GRASS\_VECTOR\_LOWMEM=1}\\
+\texttt{-b} do not build topology (applicable to other modules as well)
+
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Limits}
+
+\begin{itemize}
+  \item vector features with topology:
+    count limit is at time 2 $\hat{}$ 31 - 1 (about 2 billion) features per vector map
+  \item points without topology:
+    the count is practically unlimited when we consider just storing of the points and current hardware
+      (limited by 64bit architecture, 16 EiB exbibytes per file)
+  \item for large vectors with attributes PostgreSQL backend is recommended
+  \item r.watershed for an area of 90,000 rows x 100,000 cols (9,000,000,000 cells, metric)
+    successfully done in 77.2 hours (Intel Xeon X5670, 2.93GHz)
+    watersheds, half basins, flow accumulation, drainage directions, and stream
+  \item Number of open files limitation (system limit)
+    Too many open files
+  \item more limits for 32bit versions
+  \item      (t in minutes; points: number of vector points)
+    v.surf.rst: t = 1.5e-11 * points$^2$
+    v.vol.rst: t = 4.5e-11 * points$^3$
+  \item read the documentation
+\end{itemize}
+
+\end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Store return and class information as category}
@@ -624,7 +1002,7 @@ statistics can be computed during binning.
 
 \begin{block}{}
  \begin{itemize}
-  \item v.in.pdal
+  \item \module{v.in.pdal} (experimental), planned: \module{r.in.pdal}, \module{r3.in.pdal}
   \item reprojection during import
   \item ground filter
   \item compute height as a difference from ground
@@ -640,7 +1018,7 @@ statistics can be computed during binning.
   \item now: basic tools available in GRASS GIS 7.0
     \begin{itemize}
       \item \href{https://grass.osgeo.org/news/54/15/GRASS-GIS-7-0-3-released/}{7.0.3 released this January}
-	with 64bit support for MS Windows
+        with 64bit support for MS Windows
     \end{itemize}
   \item now: presented functionality available for testing in development version of GRASS GIS
     \begin{itemize}
@@ -649,6 +1027,7 @@ statistics can be computed during binning.
     \end{itemize}
   \item summer: 3D raster, 2D display, smooth reprojections finished
   \item fall/winter: backport of stable functionality to 7.0 or release of 7.1
+  % 3D display, direct interpolation, direct processing
  \end{itemize}
 
 \end{frame}
@@ -662,9 +1041,10 @@ statistics can be computed during binning.
 
 \begin{block}{Summary}
  \begin{itemize}
-  \item count-based and grid-based decimation perform the same on a \emph{given} point cloud
-  \item analysis needed for every dataset \textrightarrow{} need for tool to create a report
-  \item improvements needed for the project integrated into GRASS GIS
+  \item rasterize early
+  \item use also existing methods
+  \item 3D rasters, PDAL integration
+  \item plan for next 30 years driven by users -- grass-user mailing list
  \end{itemize}
 \end{block}
 
@@ -679,6 +1059,8 @@ Get GRASS GIS 7.1 development version at\\
 \smallskip
 
 \includegraphics[height=0.25\textheight]{logos/grass_gis}
+
+work by Petras, Metz and GRASS dev team
 
 % this is for logo without text
 %\vspace*{-1.5ex}
