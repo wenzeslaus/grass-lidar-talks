@@ -157,60 +157,33 @@ Center for Geospatial Analytics \\
 \logospace
 \includecclogo{sa}
 }
+\\
+\footnotesize
+available at\\
+\href{http://wenzeslaus.github.io/grass-lidar-talks/}{\texttt{wenzeslaus.github.io/grass-lidar-talks}}
 \end{center}
 }
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{GRASS GIS architecture}
+\begin{frame}{GRASS GIS}
 
 \begin{columns}
 \begin{column}{0.4\textwidth}
 
-\begin{block}{Functionality}
  \begin{itemize}
-  \item split to modules
-  \item independent of GUI
-  \item integrated with GUI
-  \item unified access to all functions
+  \item functionality split to modules
+  \item unified access to all modules from GUI, command line, Python and R
+  \item GUI independent but integrated
+  \item all in one
 \end{itemize}
-\end{block}
-
-\end{column}
-\begin{column}{0.4\textwidth}
 
 \begin{center}
-  \includegraphics[width=0.5\textwidth]{logos/grass_gis}
+\includegraphics[width=0.3\textwidth]{logos/grass_gis}
 \end{center}
 
 \end{column}
-\end{columns}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{GRASS GIS architecture}
-
-\begin{columns}
-\begin{column}{0.4\textwidth}
-
-\begin{block}{Modules}
- \begin{itemize}
-  \item all important ones available in the basic installation $>$500
-  \item extra and experimental modules in addons repository {\raise.17ex\hbox{$\scriptstyle\sim$}}250
-  \item GUI just one of the modules: g.gui, g.gui.gmodeler, g.gui.animation
-\end{itemize}
-
-% cd trunk/dist.x86_64-pc-linux-gnu
-% find scripts bin -executable -type f | wc
-
-% cd addons/grass7
-% find . -name "*.html" | wc
-
-\end{block}
-
-\end{column}
-\begin{column}{0.45\textwidth}
+\begin{column}{0.55\textwidth}
 
 \begin{center}
   \includegraphics[width=\textwidth]{grass/count_and_modules}
@@ -221,155 +194,6 @@ Center for Geospatial Analytics \\
 
 \end{frame}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{GRASS GIS architecture}
-
-\begin{columns}
-\begin{column}{0.4\textwidth}
-
-\begin{block}{General modules}
-g.list, g.remove, g.copy
-\end{block}
-
-\begin{block}{Raster modules}
-r.contour, r.watershed, r.li.patchdensity
-\end{block}
-
-\begin{block}{Vector modules}
-v.generalize, v.db.select, v.net.salesman
-\end{block}
-
-\end{column}
-\begin{column}{0.45\textwidth}
-
-\begin{center}
-  \includegraphics[width=\textwidth]{grass/basins}
-\end{center}
-
-\end{column}
-\end{columns}
-
-% \begin{block}{Modules}
-% \begin{tabular}{lll}
-% group & prefix & examples \\\hline
-% general & g. & g.list, g.remove, g.copy \\
-% raster & r. & r.contour, r.watershed, r.li.patchdensity \\
-% vector & v. & v.generalize, v.db.select, v.net.salesman \\
-% 3D raster & r3. & r3.mapcalc, r3.univar, r3.gwflow \\
-% imagery & i. & i.maxlik, i.pca, i.segment \\
-% temporal & t. & t.rast.aggregate, t.rast.accdetect, t.vect.univar \\
-% \end{tabular}
-% \end{block}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{GRASS GIS architecture}
-
-\begin{columns}
-\begin{column}{0.4\textwidth}
-
-\begin{block}{3D raster modules}
-r3.mapcalc, r3.univar, r3.gwflow
-\end{block}
-
-\begin{block}{Imagery modules}
-i.maxlik, i.pca, i.segment
-\end{block}
-
-\begin{block}{Temporal modules}
-t.rast.aggregate, t.rast.accdetect, t.vect.univar
-\end{block}
-
-\end{column}
-\begin{column}{0.35\textwidth}
-
-\begin{center}
-  \includegraphics[width=\textwidth]{grass/segements_from_3d_on_max}
-\end{center}
-
-% method=n class=2
-% method=n class=1
-% i.group
-% i.segement 0.75
-
-\end{column}
-\end{columns}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{frame}{GRASS GIS architecture}
-
-% \begin{block}{Modules}
-% \begin{tabular}{lll}
-% group & prefix & examples \\\hline
-% general & g. & g.list, g.remove, g.copy \\
-% raster & r. & r.contour, r.watershed, r.li.patchdensity \\
-% vector & v. & v.generalize, v.db.select, v.net.salesman \\
-% 3D raster & r3. & r3.mapcalc, r3.univar, r3.gwflow \\
-% imagery & i. & i.maxlik, i.pca, i.segment \\
-% temporal & t. & t.rast.aggregate, t.rast.accdetect, t.vect.univar \\
-% \end{tabular}
-% \end{block}
-
-% \end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{GRASS GIS architecture}
-
-\begin{block}{Data}
- \begin{itemize}
-  \item unified format and projection, vector and temporal topology
-    \begin{itemize}
-      \item solve data inconsistencies at the beginning, then focus only on the analysis
-    \end{itemize}
-  \item computation region (extent and resolution) independent of data
-    \begin{itemize}
-      \item all raster operations respect the region for inputs and outputs
-    \end{itemize}
-  \item exceptions: lidar data processing
-    \begin{itemize}
-      \item large point clouds
-      \item input for processing in point cloud formats
-    \end{itemize}
- \end{itemize}
-\end{block}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Scripting}
-
-\begin{block}{Python}
- \begin{itemize}
-  \item simple scripting but also advanced programming
-  \item \texttt{run\_command('r.in.lidar', file=files.txt, output='surface', method='max', class\_filter=[1, 2], flags='e')}
- \end{itemize}
-\end{block}
-
-\begin{block}{Bash (shell)}
- \begin{itemize}
-  \item simple syntax, easy to work with files, for simple task
-  \item native to Linux, possible to use on MS Windows (e.g. MSYS)
-  \item \texttt{r.in.lidar -e file=files.txt output=max method=max class\_filter=1,2}
- \end{itemize}
-\end{block}
-
-\begin{small}
-also R: \texttt{execGRASS("r.in.lidar", file="files.txt", output="max", method="max", ...)}
-\end{small}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{GUI and scripting interface convergence}
-
-\centering
-\includegraphics[width=\textwidth]{grass/grass_cmd_gui}%
-
-\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Typical lidar workflow}
