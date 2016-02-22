@@ -14,8 +14,8 @@ function tex_to_pdf {
 set -e
 
 mkdir -p ${build}/images
-mkdir -p ${build}/images/features
-cp images/features/fractals_plasio.png ${build}/images/features/fractals_plasio.png
+mkdir -p ${build}/images/grass
+cp images/grass/segment_on_counts.png ${build}/images/grass/segment_on_counts.png
 
 cp index.html ${build}/index.html
 
