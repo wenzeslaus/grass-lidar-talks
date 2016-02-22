@@ -283,10 +283,10 @@ t.rast.aggregate, t.rast.accdetect, t.vect.univar
 \end{block}
 
 \end{column}
-\begin{column}{0.45\textwidth}
+\begin{column}{0.35\textwidth}
 
 \begin{center}
-  \includegraphics[width=\textwidth]{grass/segment_on_counts}
+  \includegraphics[width=\textwidth]{grass/segements_from_3d_on_max}
 \end{center}
 
 % method=n class=2
@@ -455,10 +455,9 @@ Analyze with \gmodule{r.in.lidar}
 
 Create surface with \gmodule{v.in.lidar} and interpolation
  \begin{itemize}
-  \item smaller extent, few/sparse points
-  \item import selected points (spatial extent, classes and returns)
-  \item interpolate surface
-  \item smooth surface without NULL cells
+  \item few/sparse points, smaller extent
+%   \item import selected points (spatial extent, classes and returns)
+  \item interpolate smooth surface without NULLs
   \end{itemize}
 
 Continue analysis using standard GRASS GIS tools
@@ -843,57 +842,39 @@ under development
   % \item for large vectors with attributes PostgreSQL backend is recommended
   \item more limits for 32bit versions for operations which require memory
     % watersheds, half basins, flow accumulation, drainage directions, and stream
-  \item read/write to dist often limits speed (faster for rasters in 7.1)
+%  \item read/write to disk often limits speed (faster for rasters in 7.1)
   \item number of open files limitation (system limit)
   \begin{itemize}
-   \item \texttt{ERROR: Too many open files}
    \item often 1024, change using \emph{ulimit} on Linux
   \end{itemize}
   \item \gmodule{r.watershed} 90,000 x 100,000 (9 billion cells) in 77.2 hours (2.93GHz)
   \item
     \gmodule{v.surf.rst}: minutes = 1.5e-11 * points$^2$
     {\footnotesize (test: 13 min for 1 million points and 201880 cells)}
-    \\
-    \gmodule{v.vol.rst}: minutes = 4.5e-11 * points$^3$
   \item read the documentation
+  \item write to \href{https://lists.osgeo.org/listinfo/grass-user}{grass-user mailing list}
+    or \href{http://trac.osgeo.org/grass/}{GRASS GIS Tracker} in case you hit limits
 \end{itemize}
 
 \end{frame}
 
 
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Merge point clouds as vector maps}
+\begin{frame}{v.out.lidar}
 
-v.patch: flags to work without topology and with z
+\begin{columns}
+\begin{column}{0.28\textwidth}
 
-v.lidar.mcc: do not build topology in 7.1
-This is enabled by the change in v.patch.
-This makes it little bit faster.
-
-
-\gmodule{v.in.lidar} can store return or class information as category
-
-{\small using layers and categories for something else than ID and class}
-% Storing information as categories of vector points
-
-% fastest: -cb
-% potentially -r + decimations
-
-\begin{center}
-\includegraphics[height=0.6\textheight]{images/features/class_as_cat}
-\end{center}
-
-Also: read coordinates only -- speed improvement (\texttt{-c} flag)
-
-\gmodule{v.out.lidar} -- export points in a vector map as lidar points
+exports points in a vector map as lidar points
 
 \begin{itemize}
 \item visualization (plas.io, CloudCompare)
 \item further processing (PDAL, libLAS, CloudCompare, \ldots)
 \item testing workflows with generated data
 \end{itemize}
+
+\end{column}
+\begin{column}{0.7\textwidth}
 
 \begin{center}
 \includegraphics[height=0.5\textheight]{images/features/fractals_plasio}
@@ -905,6 +886,13 @@ Also: read coordinates only -- speed improvement (\texttt{-c} flag)
 % r.surf.fractal out=test
 % r.to.vect -z t=p in=test out=test -b
 % v.out.lidar in=test out=test.las
+
+\end{column}
+\end{columns}
+
+\bigskip
+
+More smaller tools under development.
 
 \end{frame}
 
