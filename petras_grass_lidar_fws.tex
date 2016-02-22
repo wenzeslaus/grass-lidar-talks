@@ -17,6 +17,7 @@
 \usepackage[american]{babel}
 \usepackage{graphicx}
 \usepackage{url}
+\usepackage{amssymb}
 
 \usepackage{tikz}
 \usetikzlibrary{arrows,shapes,spy,calc}
@@ -170,7 +171,7 @@ North Carolina State University, Center for Geospatial Analytics \\
  \begin{itemize}
   \item split to modules
   \item independent of GUI
-  \item integrated to GUI
+  \item integrated with GUI
   \item unified access to all functions
 \end{itemize}
 \end{block}
@@ -195,10 +196,9 @@ North Carolina State University, Center for Geospatial Analytics \\
 
 \begin{block}{Modules}
  \begin{itemize}
-%\begin{itemize}
-  \item GUI just one of the modules: g.gui, g.gui.gmodeler, g.gui.animation
   \item all important ones available in the basic installation $>$500
   \item extra and experimental modules in addons repository {\raise.17ex\hbox{$\scriptstyle\sim$}}250
+  \item GUI just one of the modules: g.gui, g.gui.gmodeler, g.gui.animation
 \end{itemize}
 
 % cd trunk/dist.x86_64-pc-linux-gnu
@@ -455,6 +455,7 @@ Analyze with \gmodule{r.in.lidar}
 
 Create surface with \gmodule{v.in.lidar} and interpolation
  \begin{itemize}
+  \item small extent few points
   \item import selected points (spatial extent, classes and returns)
   \item interpolate surface (\gmodule{v.surf.rst}, \gmodule{v.surf.bspline}, \gmodule{v.surf.idw})
   \item smooth surface without NULL cells
@@ -471,7 +472,7 @@ Continue analysis using standard GRASS GIS tools
 
   \footnotesize
   r.in.lidar and r.neighbors, range smoothed maximum surface,
-  550927433 points from 90 files to 8076 x 7223 cells
+  551 million points from 90 files to 8076 x 7223 cells
   using 480MiB in 4 min
   % 1 + 37.262/60 + 1 + 47.132/60 + 11./60
 \end{center}
@@ -539,7 +540,7 @@ Continue analysis using standard GRASS GIS tools
 % 3m10.144s
 
 % r.in.lidar mean class=2
-% 28669253 points from 90 files found in region
+% 28,669,253 points from 90 files found in region
 % 480MiB
 % 2 min 10 sec
 
@@ -562,142 +563,184 @@ Continue analysis using standard GRASS GIS tools
 \end{itemize}
 
 \centering
-\includegraphics[width=0.7\textwidth]{grass/range_on_smooth_max_larger}%
+\includegraphics[width=0.7\textwidth]{uav_flight_plan}%
 
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{r.in.lidar}
 
+\begin{columns}
+\begin{column}{0.4\textwidth}
+
+
 \begin{itemize}
-  \item
+  \item one file or multiple files as input
+  \item produces raster from points
+  \begin{itemize}
+    \item n, min, max, range
+    \item sum, mean, skewness, \ldots
+  \end{itemize}
+  \item limits import by
+  \begin{itemize}
+    \item range of Z
+    \item return, class
+  \end{itemize}
+  \item subsequent raster-based processing
+  \item use intensity instead of the Z
+  \item base raster
 \end{itemize}
 
-\centering
-\includegraphics[width=0.7\textwidth]{uav_flight_plan}%
+\begin{flushright}
+\footnotesize
+\gmodule{i.segment} on count of ground points and count of non-ground points
+\end{flushright}
+
+\end{column}
+\begin{column}{0.45\textwidth}
+
+\begin{center}
+  \includegraphics[width=\textwidth]{grass/segment_on_counts}
+\end{center}
+
+% method=n class=2
+% method=n class=1
+% i.group
+% i.segement 0.75
+
+\end{column}
+\end{columns}
 
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Count-based decimation influence on interpolated elevation}
+\begin{frame}{r.in.lidar: compute height above a given raster during binning}
 
-\newcommand{\imgsize}{0.23\textwidth}
+\gmodule{r.in.lidar} -- compute height above given surface (\texttt{base\_raster})
 
+\begin{center}
+\includegraphics[height=0.5\textheight]{images/features/base_raster}
+\end{center}
 
-\centering
-\begin{tikzpicture}[spy using outlines={circle,yellow,magnification=2,size=2.5cm, connect spies}]%
-\node {%
-\includegraphics[width=\imgsize]{uav_all_shaded_elevation}%
-~%
-\includegraphics[width=\imgsize]{uav_skip_5_shaded_elevation}%
-~%
-\includegraphics[width=\imgsize]{uav_preserve_20_shaded_elevation}%
-~%
-\includegraphics[width=\imgsize]{uav_preserve_100_shaded_elevation}%
-};%
-\spy on (-5.9,-0.5) in node [left] at (-3,2.25);%
-\spy on (-2.3,-0.5) in node [left] at (0.6,2.25);%
-\spy on (1.3,-0.5) in node [left] at (4.2,2.25);%
-\end{tikzpicture}%
+The resolutions of binning and ground raster can differ.
 
-\newcommand{\captionfont}{\small}%
-\makebox[\imgsize][c]{\captionfont all}%
-~%
-\makebox[\imgsize][c]{\captionfont skip=5}%
-~%
-\makebox[\imgsize][c]{\captionfont preserve=20}%
-~%
-\makebox[\imgsize][c]{\captionfont preserve=100}%
+\end{frame}
 
-\makebox[\imgsize][c]{\captionfont 0 \%}%
-~%
-\makebox[\imgsize][c]{\captionfont 20 \%}%
-~%
-\makebox[\imgsize][c]{\captionfont 90 \%}%
-~%
-\makebox[\imgsize][c]{\captionfont 99 \%}%
+% r.in.lidar output=height_max_10m method=max base_raster=ground_mean_neighbors resolution=10 class_filter=1
+% 522,357,379 points from 90 files
+% 48 MB
+% 4 min 30 sec
 
-\smallskip
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{r.in.lidar}
 
-\begin{flushleft}
+\begin{columns}
+\begin{column}{0.45\textwidth}
 
-\texttt{
-g.region
-%n=219454.8
-%s=219410.1
-%w=636937.5
-%e=636985.8
-nsres=0.3
-ewres=0.3
-rows=149
-cols=161
-\textit{(cells=23989)}
-}
+\texttt{r.in.lidar method=mean class=2}\\
+\ $\square\hspace{-4pt}\leftarrow$ 29 million points from 90 files\\
+\ $\square\hspace{-4pt}\rightarrow$ ground with NULLs (8$\times$8km, 1m)\\
+%\ $\cdot$ in 2 min using 480MiB
+% \ $\cdot$ 8076 $\times$ 7223 = 58,332,948 (1m)
 
-\texttt{
-v.surf.rst
-%input=..
-%elevation=...
-...
-%aspect=...
-%slope=...
-npmin=120
-tension=20
-smooth=2
-segmax=40
-}
+\texttt{r.neighbors size=25}\\
+\ $\square\hspace{-4pt}\leftarrow$ ground with NULLs\\
+\ $\square\hspace{-4pt}\rightarrow$ continuous ground\\
+%\ $\cdot$ in 2.5 min\\
+% \ $\cdot$ 8076 $\times$ 7223 = 58,332,948 (1m)
 
-\end{flushleft}
+\texttt{r.in.lidar method=max\\\ resolution=10 class\_filter=1}\\
+\ $\square\hspace{-4pt}\leftarrow$ 522 million points from 90 files\\
+\ $\square\hspace{-4pt}\leftarrow$ continuous ground\\
+\ $\square\hspace{-4pt}\rightarrow$ max veg height per 10m cell\\
+%\ $\cdot$ in 4.5 min using 48 MiB
+
+\medskip
+\footnotesize
+9 min, 480 MiB, Ubuntu, 2.7 GHz, SSD
+% (R 2150MB/s, W 1200MB/s)
+\\
+578 million points in 90 files
+
+\end{column}
+\begin{column}{0.45\textwidth}
+
+\begin{center}
+  \includegraphics[width=\textwidth]{grass/max_height_10m_on_ground_from_neighbors_smaller_area_top}
+\end{center}
+
+\end{column}
+\end{columns}
 
 \end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Count-based decimation influence on local relief model}
+\begin{frame}{r3.in.lidar}
 
-\newcommand{\imgsize}{0.23\textwidth}
+\begin{columns}
+\begin{column}{0.28\textwidth}
 
-\centering
-\includegraphics[width=\imgsize]{uav_all_lrm_shaded}%
-~%
-\includegraphics[width=\imgsize]{uav_skip_5_lrm_shaded}%
-~%
-\includegraphics[width=\imgsize]{uav_preserve_20_lrm_shaded}%
-~%
-\includegraphics[width=\imgsize]{uav_preserve_100_lrm_shaded}%
-
-\newcommand{\captionfont}{\small}%
-\makebox[\imgsize][c]{\captionfont all}%
-~%
-\makebox[\imgsize][c]{\captionfont skip=5}%
-~%
-\makebox[\imgsize][c]{\captionfont preserve=20}%
-~%
-\makebox[\imgsize][c]{\captionfont preserve=100}%
-
-\makebox[\imgsize][c]{\captionfont 0 \%}%
-~%
-\makebox[\imgsize][c]{\captionfont 20 \%}%
-~%
-\makebox[\imgsize][c]{\captionfont 90 \%}%
-~%
-\makebox[\imgsize][c]{\captionfont 99 \%}%
+\begin{itemize}
+  \item generally similar to \gmodule{r.in.lidar}
+  \item 3D raster
+  \item proportional count
+  \begin{itemize}
+    \item count per 3D cell relative to the count per vertical column
+  \end{itemize}
+  \item intensity can be used instead of count
+\end{itemize}
 
 \bigskip
+\footnotesize
+under development
 
-\begin{flushleft}
+\end{column}
+\begin{column}{0.7\textwidth}
 
-\texttt{
-r.local.relief
-input=...
-output=...
-shaded\_output=...
-neighborhood=11
-}
+\begin{center}
+  \includegraphics[width=\textwidth]{grass/red_green_3d}
+\end{center}
 
-% r.covar ...
+\end{column}
+\end{columns}
 
-\end{flushleft}
+\end{frame}
+
+% vis also possible using Tangible Landscape
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{v.in.lidar}
+
+
+\begin{columns}
+\begin{column}{0.28\textwidth}
+
+\begin{itemize}
+  \item filtering same as in \gmodule{r.in.lidar}
+  \item 3D vector
+  \item used together with
+  \begin{itemize}
+    \item \gmodule{r.in.lidar}
+    \item interpolation modules like \gmodule{v.surf.rst}
+  \end{itemize}
+  \item decimation
+  \item polygons as a mask
+\end{itemize}
+
+\end{column}
+\begin{column}{0.7\textwidth}
+
+\begin{center}
+  \includegraphics[width=\textwidth]{grass/range_on_ground_from_north}
+
+  \footnotesize
+  range from \gmodule{r.in.lidar} on ground obtained
+  from \gmodule{v.in.lidar} followed by \gmodule{v.surf.rst}
+\end{center}
+
+\end{column}
+\end{columns}
 
 \end{frame}
 
@@ -712,18 +755,6 @@ neighborhood=11
 \end{frame}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Merge point clouds as vector maps}
-
-v.patch: flags to work without topology and with z
-
-v.lidar.mcc: do not build topology in 7.1
-This is enabled by the change in v.patch.
-This makes it little bit faster.
-
-\end{frame}
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Crop the point cloud by polygon}
 
@@ -734,70 +765,27 @@ This makes it little bit faster.
 
 \centering
 \begin{minipage}{0.96\textwidth}
+\centering
 %
 \newcommand{\imgsize}{0.23\textwidth}
-\includegraphics<1->[width=\imgsize]{features/areas}%
+\includegraphics[width=\imgsize]{features/areas}%
 ~%
-\only<-1>{\rule{\imgsize}{0pt}}%
-\includegraphics<2->[width=\imgsize]{features/selected_1}%
+\includegraphics[width=\imgsize]{features/selected_1}%
 ~%
-\only<-2>{\rule{\imgsize}{0pt}}%
-\includegraphics<3->[width=\imgsize]{features/selected_2}%
-~%
-\only<-3>{\rule{\imgsize}{0pt}}%
-\includegraphics<4->[width=\imgsize]{features/merged}%
+\includegraphics[width=\imgsize]{features/selected_2}%
 
 \newcommand{\captionfont}{\scriptsize\tt}%
 % using phantom to vertically stretch to have space for p
 \makebox[\imgsize][c]{\captionfont areas\vphantom{patch}}%
 ~%
-\only<-1>{\rule{\imgsize}{0pt}}%
-\only<2->{\makebox[\imgsize][c]{\captionfont v.in.lidar mask=}}
+\makebox[\imgsize][c]{\captionfont v.in.lidar mask=}%
 ~%
-\only<-2>{\rule{\imgsize}{0pt}}%
-\only<3->{\makebox[\imgsize][c]{\captionfont v.in.lidar -i mask=}}%
-~%
-\only<-3>{\rule{\imgsize}{0pt}}%
-\only<4->{\makebox[\imgsize][c]{\captionfont v.patch -nz}}%
+\makebox[\imgsize][c]{\captionfont v.in.lidar -i mask=}%
 %
 \end{minipage}
 
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Count-based decimation}
-
-\gmodule{v.in.lidar} -- count-based decimation during import
-
-\begin{center}
-\begin{minipage}{0.96\textwidth}
-%
-\newcommand{\imgsize}{0.23\textwidth}
-\includegraphics[width=\imgsize]{features/full}%
-~%
-\includegraphics[width=\imgsize]{features/preserve}%
-~%
-\includegraphics[width=\imgsize]{features/offset}%
-~%
-\includegraphics[width=\imgsize]{features/limit}%
-
-\newcommand{\captionfont}{\small}%
-% using phantom to vertically stretch to have space for p
-\makebox[\imgsize][c]{\captionfont full}%
-~%
-\makebox[\imgsize][c]{\captionfont preserve/skip}
-~%
-\makebox[\imgsize][c]{\captionfont offset}%
-~%
-\makebox[\imgsize][c]{\captionfont limit}%
-%
-\end{minipage}
-\end{center}
-
-\gmodule{v.decimate} -- point cloud decimation of vector maps
-(also supports grid-based decimation with preserving point properties)
-
-\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Speed optimization}
@@ -828,6 +816,7 @@ This makes it little bit faster.
  \begin{itemize}
   \item depend on the side of output and type of analysis
   \item can be reduced by \texttt{percent} option
+  \item \texttt{ERROR: G\_malloc: unable to allocate ... bytes of memory}
   \item on Linux available memory for process is RAM + SWAP partition
  \end{itemize}
 \end{block}
@@ -835,13 +824,10 @@ This makes it little bit faster.
 
 \begin{block}{\gmodule{v.in.lidar}}
  \begin{itemize}
-  \item
+  \item low when not building topology
+  \item \texttt{export GRASS\_VECTOR\_LOWMEM=1}
  \end{itemize}
 \end{block}
-
-\texttt{ERROR: G\_malloc: unable to allocate ... bytes of memory}\\
-\texttt{export GRASS\_VECTOR\_LOWMEM=1}\\
-\texttt{-b} do not build topology (applicable to other modules as well)
 
 \end{frame}
 
@@ -850,28 +836,42 @@ This makes it little bit faster.
 
 \begin{itemize}
   \item vector features with topology:
-    count limit is at time 2 $\hat{}$ 31 - 1 (about 2 billion) features per vector map
+    count limit is about 2 billion features per vector map
+    % 2 $\hat{}$ 31 - 1
   \item points without topology:
-    the count is practically unlimited when we consider just storing of the points and current hardware
-      (limited by 64bit architecture, 16 EiB exbibytes per file)
-  \item for large vectors with attributes PostgreSQL backend is recommended
-  \item r.watershed for an area of 90,000 rows x 100,000 cols (9,000,000,000 cells, metric)
-    successfully done in 77.2 hours (Intel Xeon X5670, 2.93GHz)
-    watersheds, half basins, flow accumulation, drainage directions, and stream
-  \item Number of open files limitation (system limit)
-    Too many open files
-  \item more limits for 32bit versions
-  \item      (t in minutes; points: number of vector points)
-    v.surf.rst: t = 1.5e-11 * points$^2$
-    v.vol.rst: t = 4.5e-11 * points$^3$
+    count theoretically limited only by the 64bit architecture\\
+    (may be 16~exbibytes per file but depends on the file system)
+  % \item for large vectors with attributes PostgreSQL backend is recommended
+  \item more limits for 32bit versions for operations which require memory
+    % watersheds, half basins, flow accumulation, drainage directions, and stream
+  \item number of open files limitation (system limit)
+  \begin{itemize}
+   \item \texttt{ERROR: Too many open files}
+   \item often 1024, change using \emph{ulimit} on Linux
+  \end{itemize}
+  \item \gmodule{r.watershed} 90,000 x 100,000 (9 billion cells) in 77.2 hours (2.93GHz)
+  \item
+    \gmodule{v.surf.rst}: minutes = 1.5e-11 * points$^2$
+    {\footnotesize (test: 13 min for 1 million points and 201880 cells)}
+    \\
+    \gmodule{v.vol.rst}: minutes = 4.5e-11 * points$^3$
   \item read the documentation
 \end{itemize}
 
 \end{frame}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Store return and class information as category}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Merge point clouds as vector maps}
+
+v.patch: flags to work without topology and with z
+
+v.lidar.mcc: do not build topology in 7.1
+This is enabled by the change in v.patch.
+This makes it little bit faster.
+
 
 \gmodule{v.in.lidar} can store return or class information as category
 
@@ -886,76 +886,6 @@ This makes it little bit faster.
 \end{center}
 
 Also: read coordinates only -- speed improvement (\texttt{-c} flag)
-
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Binning of points from multiple LAS files}
-
-\gmodule{r.in.lidar} -- read multiple LAS files in one run
-
-\bigskip
-\small
-
-The original workflow
-
-\smallskip
-
-\texttt{ r.in.lidar input=tile\_01.las output=tile\_01}\\
-\texttt{ r.in.lidar input=tile\_02.las output=tile\_02}\\
-\texttt{ ...}\\
-\texttt{ r.patch input=tile\_01,tile\_02,... output=elevation}\\
-
-\smallskip
-
-is replaced by
-
-\smallskip
-
-\alert{
-\texttt{ r.in.lidar file=tile\_list.txt output=elevation}\\
-}
-
-\smallskip
-
-where \texttt{tile\_list.txt} is
-
-\smallskip
-
-\texttt{ tile\_01.las}\\
-\texttt{ tile\_02.las}\\
-\texttt{ ...}\\
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\begin{frame}{Filter points using range for Z coordinates}
-
-%remove prominent outliers during import with \gmodule{v.in.lidar}
-
-%\centering
-%\includegraphics[height=0.7\textheight]{images/features/zrange}
-
-%\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Compute height above a given raster during binning}
-
-\gmodule{r.in.lidar} -- derive height above ground of features
-
-\begin{center}
-\includegraphics[height=0.5\textheight]{images/features/base_raster}
-\end{center}
-
-The resolutions of binning and ground raster can differ, so different
-statistics can be computed during binning.
-
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Export vector points from GRASS GIS as LAS}
 
 \gmodule{v.out.lidar} -- export points in a vector map as lidar points
 
@@ -976,43 +906,34 @@ statistics can be computed during binning.
 % r.to.vect -z t=p in=test out=test -b
 % v.out.lidar in=test out=test.las
 
+
 \end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\begin{frame}{Future work and work in progress}
-
-%\begin{itemize}
-%\item show large point clouds in Map Display (2D) -- \module{d.points}
-%\item colorize the points according to a raster -- \module{v.colorize}
-%\item binning from a vector map -- \module{v.binning}, \module{r.binning}
-%\item binning to a 3D raster -- \module{v.binning}, \module{r3.binning}, \module{r3.in.lidar}
-%\item general support for color stored as category
-    %-- \module{v.colors}, \module{d.vect}, \module{v.colorize}
-%\item use PDAL as backend for import and export
-    %-- \module{v.in.pdal}, \module{v.in.points}, \module{v.in.lidar}
-%\item provide access to selected PDAL analyses
-    %-- \module{v.in.pdal}, \module{v.pdal}
-%\end{itemize}
-
-%\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Integration with PDAL}
 
-\begin{block}{}
+\begin{block}{experimental}
  \begin{itemize}
-  \item \module{v.in.pdal} (experimental), planned: \module{r.in.pdal}, \module{r3.in.pdal}
+  \item \module{v.in.pdal}
   \item reprojection during import
   \item ground filter
   \item compute height as a difference from ground
  \end{itemize}
 \end{block}
 
+\begin{block}{planned}
+ \begin{itemize}
+  \item \module{r.in.pdal}, \module{r3.in.pdal}, \module{v.out.pdal}, \module{r.out.pdal}, \ldots
+  \item more PDAL filters
+ \end{itemize}
+\end{block}
+
 \end{frame}
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{GRASS Lidar tools roadmap}
+\begin{frame}{GRASS GIS lidar tools roadmap}
 
  \begin{itemize}
   \item now: basic tools available in GRASS GIS 7.0
@@ -1025,10 +946,32 @@ statistics can be computed during binning.
       \item daily build for MS Windows and Ubuntu
       \item self-compiled version (simple for Fedora, CentOS, \ldots\ possible on Mac OS)
     \end{itemize}
-  \item summer: 3D raster, 2D display, smooth reprojections finished
+  \item summer: 3D raster, PDAL, 2D display, smooth reprojections
+  % color support, standardized categories
   \item fall/winter: backport of stable functionality to 7.0 or release of 7.1
   % 3D display, direct interpolation, direct processing
  \end{itemize}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Acknowledgements}
+
+% logo at the bottom can be moved down
+\vspace*{0.05\textheight}
+
+\begin{block}{Software: GRASS GIS}
+Presented functionality are work done by Vaclav Petras, Markus Metz, and the GRASS development team.
+Thanks to users for feedback and testing, especially to Doug Newcomb, Markus Neteler, and William Hargrove.
+\end{block}
+
+\begin{block}{Dataset: Nantahala NF, NC: Forest Leaf Structure, Terrain and Hydrophysiology}
+Lidar data acquisition and processing completed
+by the National Center for Airborne Laser Mapping (\href{http://www.ncalm.org}{NCALM}).
+NCALM funding provided by NSF's Division of Earth Sciences, Instrumentation and Facilities Program.
+EAR-1043051. \url{http://dx.doi.org/10.5069/G9HT2M76}
+\end{block}
 
 \end{frame}
 
@@ -1042,7 +985,7 @@ statistics can be computed during binning.
 \begin{block}{Summary}
  \begin{itemize}
   \item rasterize early
-  \item use also existing methods
+  \item make use of existing methods for raster and vector processing
   \item 3D rasters, PDAL integration
   \item plan for next 30 years driven by users -- grass-user mailing list
  \end{itemize}
@@ -1060,13 +1003,12 @@ Get GRASS GIS 7.1 development version at\\
 
 \includegraphics[height=0.25\textheight]{logos/grass_gis}
 
-work by Petras, Metz and GRASS dev team
-
 % this is for logo without text
 %\vspace*{-1.5ex}
 %\Large
 %\textbf{GRASS} GIS
 
 \end{frame}
+
 
 \end{document}
