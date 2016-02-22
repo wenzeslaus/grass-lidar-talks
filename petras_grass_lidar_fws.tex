@@ -382,8 +382,8 @@ Explore the data with \gmodule{r.in.lidar}
  \begin{itemize}
   \item import extent based on input data (\texttt{-e}~flag)
   \item resolution set to high number (coarse, \texttt{resolution=10})
-  \item counting number of points per cell (\texttt{method=n})
-  \item trying different class and return filters (\texttt{class\_filter}, \texttt{return\_filter})
+  \item count number of points per cell (\texttt{method=n})
+  \item try different class and return filters (\texttt{class\_filter}, \texttt{return\_filter})
   \item decide on computational region extent and resolution (\texttt{g.region})
  \end{itemize}
 % \end{block}
@@ -455,9 +455,9 @@ Analyze with \gmodule{r.in.lidar}
 
 Create surface with \gmodule{v.in.lidar} and interpolation
  \begin{itemize}
-  \item small extent few points
+  \item smaller extent, few/sparse points
   \item import selected points (spatial extent, classes and returns)
-  \item interpolate surface (\gmodule{v.surf.rst}, \gmodule{v.surf.bspline}, \gmodule{v.surf.idw})
+  \item interpolate surface
   \item smooth surface without NULL cells
   \end{itemize}
 
@@ -563,7 +563,7 @@ Continue analysis using standard GRASS GIS tools
 \end{itemize}
 
 \centering
-\includegraphics[width=0.7\textwidth]{uav_flight_plan}%
+\includegraphics[width=0.7\textwidth]{agisoft_detail}%
 
 \end{frame}
 
@@ -632,7 +632,7 @@ The resolutions of binning and ground raster can differ.
 % 4 min 30 sec
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{r.in.lidar}
+\begin{frame}{r.in.lidar: \texttt{base\_raster} workflow}
 
 \begin{columns}
 \begin{column}{0.45\textwidth}
@@ -712,7 +712,6 @@ under development
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{v.in.lidar}
 
-
 \begin{columns}
 \begin{column}{0.28\textwidth}
 
@@ -722,7 +721,7 @@ under development
   \item used together with
   \begin{itemize}
     \item \gmodule{r.in.lidar}
-    \item interpolation modules like \gmodule{v.surf.rst}
+    \item interpolation modules (\gmodule{v.surf.rst}, \gmodule{v.surf.bspline}, \gmodule{v.surf.idw})
   \end{itemize}
   \item decimation
   \item polygons as a mask
@@ -844,6 +843,7 @@ under development
   % \item for large vectors with attributes PostgreSQL backend is recommended
   \item more limits for 32bit versions for operations which require memory
     % watersheds, half basins, flow accumulation, drainage directions, and stream
+  \item read/write to dist often limits speed (faster for rasters in 7.1)
   \item number of open files limitation (system limit)
   \begin{itemize}
    \item \texttt{ERROR: Too many open files}
@@ -906,6 +906,111 @@ Also: read coordinates only -- speed improvement (\texttt{-c} flag)
 % r.to.vect -z t=p in=test out=test -b
 % v.out.lidar in=test out=test.las
 
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{v.lidar.edgedetection suite}
+
+\begin{columns}
+\begin{column}{0.28\textwidth}
+
+\begin{itemize}
+  \item \gmodule{v.lidar.edgedetection}
+  \item \gmodule{v.lidar.growing}
+  \item \gmodule{v.lidar.correction}
+  \item uses return information
+\end{itemize}
+
+\end{column}
+\begin{column}{0.7\textwidth}
+
+\begin{center}
+  \includegraphics[width=\textwidth]{grass/v_lidar_edgedetection_objects}
+\end{center}
+
+\end{column}
+\end{columns}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{v.lidar.mcc}
+
+\begin{columns}
+\begin{column}{0.28\textwidth}
+
+\begin{itemize}
+  \item ground and non-ground
+  \item multiscale curvature based classification algorithm
+\end{itemize}
+
+\end{column}
+\begin{column}{0.7\textwidth}
+
+\begin{center}
+  \includegraphics[width=\textwidth]{grass/mcc_default}
+\end{center}
+
+\end{column}
+\end{columns}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{r.skyview}
+
+\begin{itemize}
+  \item sky-view factor
+\end{itemize}
+
+\begin{center}
+  \includegraphics[width=0.4\textwidth]{vis/shaded_relief}
+  ~~
+  \includegraphics[width=0.4\textwidth]{vis/skyview}
+\end{center}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{r.local.relief}
+
+\begin{itemize}
+  \item local relief model
+\end{itemize}
+
+\begin{center}
+  \includegraphics[width=0.4\textwidth]{vis/elevation}
+  ~~
+  \includegraphics[width=0.4\textwidth]{vis/lrm}
+\end{center}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{r.shaded.pca}
+
+\begin{columns}
+\begin{column}{0.35\textwidth}
+
+\begin{itemize}
+  \item relief shades from various directions
+  \item combined into RGB composition
+\end{itemize}
+
+\end{column}
+\begin{column}{0.6\textwidth}
+
+\begin{center}
+  \includegraphics[width=\textwidth]{grass/agisoft_shadedpca100}
+\end{center}
+
+\end{column}
+\end{columns}
 
 \end{frame}
 
@@ -918,6 +1023,7 @@ Also: read coordinates only -- speed improvement (\texttt{-c} flag)
   \item \module{v.in.pdal}
   \item reprojection during import
   \item ground filter
+    (alternative to \gmodule{v.lidar.edgedetection} or \gmodule{v.lidar.mcc})
   \item compute height as a difference from ground
  \end{itemize}
 \end{block}
@@ -987,7 +1093,8 @@ EAR-1043051. \url{http://dx.doi.org/10.5069/G9HT2M76}
   \item rasterize early
   \item make use of existing methods for raster and vector processing
   \item 3D rasters, PDAL integration
-  \item plan for next 30 years driven by users -- grass-user mailing list
+  \item the plan for next 30 years driven by users
+    -- \href{https://lists.osgeo.org/listinfo/grass-user}{grass-user mailing list}
  \end{itemize}
 \end{block}
 
