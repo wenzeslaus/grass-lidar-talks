@@ -13,6 +13,12 @@ function tex_to_pdf {
 
 set -e
 
+mkdir -p ${build}/images
+mkdir -p ${build}/images/features
+cp images/features/fractals_plasio.png ${build}/images/features/fractals_plasio.png
+
+cp index.html ${build}/index.html
+
 sed -e "s/aspectratio=1610/aspectratio=169/g" < ${project_582}.tex > ${project_582}_16x9.tex
 sed -e "s/aspectratio=1610/aspectratio=43/g" < ${project_582}.tex > ${project_582}_4x3.tex
 
@@ -32,11 +38,5 @@ cp ${project_582}_4x3.pdf $build
 cp ${project_582}.pdf $build/${project_582}_16x10.pdf
 
 cp ${fwstalk}.pdf $build
-
-cp index.html ${build}/index.html
-
-mkdir -p ${build}/images
-mkdir -p ${build}/images/features
-cp images/features/fractals_plasio.png ${build}/images/features/fractals_plasio.png
 
 rm ${project_582}_16x9.* ${project_582}_4x3.*
