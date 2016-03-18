@@ -3,6 +3,7 @@
 build=build
 project_582=PetrasVaclav_ProjectPresentation
 fwstalk=petras_grass_lidar_fws
+usiale=vpetras_grass_lidar_usiale
 
 # how many times repeat latex
 n=3
@@ -27,6 +28,7 @@ tex_to_pdf ${project_582}_16x9 &
 tex_to_pdf ${project_582}_4x3 &
 
 tex_to_pdf ${fwstalk} &
+tex_to_pdf ${usiale} &
 
 wait
 
@@ -38,5 +40,6 @@ cp ${project_582}_4x3.pdf $build
 cp ${project_582}.pdf $build/${project_582}_16x10.pdf
 
 cp ${fwstalk}.pdf $build
+cp ${usiale}.pdf $build
 
 rm ${project_582}_16x9.* ${project_582}_4x3.*
