@@ -203,126 +203,21 @@ available at\\
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Two core modules for lidar processing}
-
-
-\begin{columns}
-\begin{column}{0.5\textwidth}
-
-\begin{itemize}
-  \item \gmodule{r.in.lidar} -- binning and analyses, raster
-  \item \gmodule{v.in.lidar} -- import of points, vector
-\end{itemize}
-
-\end{column}
-\begin{column}{0.45\textwidth}
-
-\begin{center}
-  \includegraphics[width=0.8\textwidth]{grass/range_on_smooth_max_larger}
-
-  \footnotesize
-  r.in.lidar and r.neighbors, range smoothed maximum surface,
-  551 million points from 90 files to 8076 x 7223 cells
-  using 480MiB in 4 min
-  % 1 + 37.262/60 + 1 + 47.132/60 + 11./60
-\end{center}
-
-% g.region -p
-% north:      3885316.5
-% south:      3877241.5
-% west:       273832
-% east:       281053
-% nsres:      0.5
-% ewres:      0.5
-% rows:       16150
-% cols:       14442
-% cells:      233238300
-
-% r.in.lidar max
-% 550927433 points from 90 files found in region
-% 920MiB
-% 1m39.372s
-
-% g.region -p
-% north:      3885316.5
-% south:      3877241.25
-% west:       273831.75
-% east:       281053.5
-% nsres:      0.75
-% ewres:      0.75
-% rows:       10767
-% cols:       9629
-% cells:      103675443
-
-% r.in.lidar max
-% 550927433 points from 90 files found in region
-% 430MiB
-% 1m38.932s
-
-
-% g.region -p
-% north:      3885317
-% south:      3877241
-% west:       273831
-% east:       281054
-% nsres:      1
-% ewres:      1
-% rows:       8076
-% cols:       7223
-% cells:      58332948
-
-% r.in.lidar max
-% 550927433 points from 90 files found in region
-% 250MiB
-% 1m37.262s
-
-% r.neighbors input=max size=7
-% 11 sec
-
-% r.in.lidar range
-% 550927433 points from 90 files found in region
-% 480MiB
-% 1m47.132s
-
-% r.in.lidar skewness
-% 551004149 points from 90 files found in region
-% 8.5 GiB
-% 3m10.144s
-
-% r.in.lidar mean class=2
-% 28,669,253 points from 90 files found in region
-% 480MiB
-% 2 min 10 sec
-
-% r.neighbors -c --overwrite input=ground_mean size=25
-% 2 min 33 sec
-
-\end{column}
-\end{columns}
-
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Binning}
+\begin{frame}{Binning points to raster}
 
 \begin{columns}
 \begin{column}{0.4\textwidth}
 
-
  \begin{itemize}
-  \item analyze with \gmodule{r.in.lidar}
+  \item \gmodule{r.in.lidar} (import and analysis)
   \item statistics of point counts, height and intensity
-  \item using different resolutions
-  \item produces raster from points
   \begin{itemize}
     \item n, min, max, sum
     \item mean, range, skewness, \ldots
   \end{itemize}
-  \item limits import by
+  \item filter points by
   \begin{itemize}
-    \item range of Z
-    \item return, class
+    \item range of Z, return, class, \ldots
   \end{itemize}
   \item multiple input files at once
   \item subsequent raster-based processing
@@ -415,15 +310,13 @@ available at\\
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Binning into 3D raster}
+\begin{frame}{Binning points to 3D raster}
 
 \begin{columns}
 \begin{column}{0.28\textwidth}
 
 \begin{itemize}
   \item \gmodule{r3.in.lidar}
-  \item generally similar to \gmodule{r.in.lidar}
-  \item 3D raster
   \item proportional count
   \begin{itemize}
     \item count per 3D cell relative to the count per vertical column
@@ -456,19 +349,14 @@ under development
 \begin{columns}
 \begin{column}{0.28\textwidth}
 
-
-Create surface with \gmodule{v.in.lidar} and interpolation
- \begin{itemize}
-  \item few/sparse points, smaller extent
-%   \item import selected points (spatial extent, classes and returns)
-  \item interpolate smooth surface without NULLs
-  \end{itemize}
-
 \begin{itemize}
   \item \gmodule{v.in.lidar}
   \item filtering same as in \gmodule{r.in.lidar}
-  \item interpolation modules
-  \item decimation (count-based as effective grid-based decimation important points)
+  \item followed by interpolation (costly)
+  \item decimation
+  \begin{itemize}
+  \item fast count-based as effective as more advanced decimation
+  \end{itemize}
 \end{itemize}
 
 \end{column}
@@ -491,15 +379,17 @@ Create surface with \gmodule{v.in.lidar} and interpolation
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Regional scale}
+\begin{frame}{Large point clouds}
 
 \begin{itemize}
-  \item trade-off have enough memory to avoid using \texttt{percent} option
-  \item no IDs (lim of int)
-  \item \texttt{-t} do not create attribute table
-  \item \texttt{-b} do not build topology (applicable to other modules as well)
-  \item \texttt{-c} store only coordinates, no categories or IDs
+  \item trade-offs: a lot of memory (RAM) or slow
   \item 64bit version
+  \item point cloud specific optimizations
+  \begin{itemize}
+  \item no IDs stored
+  \item no attribute table
+  \item no topology created
+  \end{itemize}
 \end{itemize}
 
 \end{frame}
