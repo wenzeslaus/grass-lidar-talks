@@ -80,7 +80,7 @@
 
 \title[Processing of point clouds in GRASS GIS]
 {Efficient processing of dense point clouds in GRASS GIS}
-\subtitle{at US-IALE 2016 Annual Meeting (lab presentation at CGA)}
+\subtitle{at US-IALE 2016 Annual Meeting}
 %\pdforstring{}{}
 
 \author[Vaclav Petras]
@@ -170,12 +170,44 @@ available at\\
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Points}
+
+\begin{columns}
+\begin{column}{0.3\textwidth}
+
+\begin{itemize}
+  \item collected by lidar
+  \item Structure from Motion (SfM) from UAV imagery
+  \item a lot of points
+  \begin{itemize}
+  \item often more than we need
+  \end{itemize}
+\end{itemize}
+
+\end{column}
+\begin{column}{0.65\textwidth}
+
+\begin{center}
+  \includegraphics[width=\textwidth]{agisoft_detail}
+  \\
+  \tiny
+  \textcolor{gray}{surface interpolated from points from SfM}
+\end{center}
+
+\end{column}
+\end{columns}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Free, libre and open source}
 
 \begin{columns}
 \begin{column}{0.4\textwidth}
 
 \begin{itemize}
+  \item driven by needs of users
   \item re-usable
   \item review
   \item usable
@@ -215,7 +247,7 @@ available at\\
 \begin{itemize}
   \item universal scientific and processing platform
   \begin{itemize}
-  \item GUI, CLI, API
+  \item GUI, CLI, Python API
   \item from small laptops to supercomputers
   \end{itemize}
   \item lidar processing included
@@ -381,23 +413,23 @@ under development
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Decimation, interpolation}
+\begin{frame}{Decimation, sampling, interpolation}
 
 \begin{columns}
-\begin{column}{0.28\textwidth}
+\begin{column}{0.3\textwidth}
 
 \begin{itemize}
   \item \gmodule{v.in.lidar}
   \item filtering same as in \gmodule{r.in.lidar}
   \item followed by interpolation (costly)
-  \item decimation
+  \item decimation~$\approx$~sampling
   \begin{itemize}
   \item fast count-based as effective as more advanced decimation
   \end{itemize}
 \end{itemize}
 
 \end{column}
-\begin{column}{0.7\textwidth}
+\begin{column}{0.68\textwidth}
 
 % TODO: UAV image
 
@@ -405,8 +437,10 @@ under development
   \includegraphics[width=\textwidth]{grass/range_on_ground_from_north}
 
   \footnotesize
+  \textcolor{gray}{
   range from \gmodule{r.in.lidar} on ground obtained
   from \gmodule{v.in.lidar} followed by \gmodule{v.surf.rst}
+  }
 \end{center}
 
 \end{column}
@@ -673,6 +707,14 @@ Get GRASS GIS 7.1 development version at\\
 Slides available at\\
 \href{http://wenzeslaus.github.io/grass-lidar-talks/}%
   {\texttt{wenzeslaus.github.io/grass-lidar-talks}}
+}
+
+%\bigskip
+
+{
+\footnotesize
+Paper in preparation:
+\emph{Processing UAV and lidar point clouds in GRASS GIS}
 }
 \end{minipage}
 &
