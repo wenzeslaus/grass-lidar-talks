@@ -297,45 +297,6 @@ available at\\
 
 \begin{center}
   \includegraphics[width=0.75\textwidth]{grass/rinlidar_region}
-
-  \footnotesize
-  r.in.lidar, 578 million points in 90 files to 1882 $\times$ 1651 cells using 50MiB in 2 min
-
-% time r.in.lidar file=list_las_files.txt -e method=n output=count res=5 --o
-% 578628031 points from 90 files found in region
-%
-% r.in.lidar: 2m14.852s 50MiB
-% r.info map=count@all -g
-% north=3886000
-% south=3876590
-% east=281705
-% west=273450
-% nsres=5
-% ewres=5
-% rows=1882
-% cols=1651
-% cells=3107182
-% datatype=CELL
-% ncats=0
-%
-% r.in.lidar: 2m25.048s 1.2GiB
-% r.info map=count_2@all -g
-% north=3886000
-% south=3876590.5
-% east=281700.5
-% west=273452
-% nsres=0.5
-% ewres=0.5
-% rows=18819
-% cols=16497
-% cells=310457043
-% datatype=CELL
-% ncats=0
-
-% g.region rast=count_2@all
-% r.univar map=count_2@all -e
-% 30 sec
-
 \end{center}
 
 \end{column}
@@ -356,14 +317,6 @@ available at\\
 \begin{center}
 \includegraphics[width=\textwidth]{images/features/base_raster}
 \end{center}
-
-\bigskip
-\flushright
-\footnotesize
-9 min, 480 MiB RAM, 2.7 GHz, SSD, Ubuntu
-% (R 2150MB/s, W 1200MB/s)
-\\
-578 million points in 90 files
 
 \end{column}
 \begin{column}{0.55\textwidth}
