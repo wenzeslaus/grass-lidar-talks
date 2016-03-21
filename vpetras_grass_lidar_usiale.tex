@@ -284,10 +284,6 @@ available at\\
     \item n, min, max, sum
     \item mean, range, skewness, \ldots
   \end{itemize}
-  \item filter points by
-  \begin{itemize}
-    \item range of Z, return, class, \ldots
-  \end{itemize}
   \item multiple input files at once
   \item subsequent raster-based processing
 \end{itemize}
@@ -297,6 +293,34 @@ available at\\
 
 \begin{center}
   \includegraphics[width=0.75\textwidth]{grass/rinlidar_region}
+\end{center}
+
+\end{column}
+\end{columns}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Filtering points}
+
+\begin{columns}
+\begin{column}{0.38\textwidth}
+
+ \begin{itemize}
+  \item filter points by
+  \begin{itemize}
+    \item range of Z
+    \item return
+    \item class
+    \item \ldots
+  \end{itemize}
+\end{itemize}
+
+\end{column}
+\begin{column}{0.6\textwidth}
+
+\begin{center}
+  \includegraphics[width=0.75\textwidth]{features/zrange}
 \end{center}
 
 \end{column}
@@ -323,6 +347,44 @@ available at\\
 
 \begin{center}
   \includegraphics[width=\textwidth]{grass/max_height_10m_on_ground_from_neighbors_smaller_area_top}
+\end{center}
+
+\end{column}
+\end{columns}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Rasterize early}
+
+\begin{columns}
+\begin{column}{0.4\textwidth}
+
+\begin{itemize}
+  \item less cells then points
+  \begin{itemize}
+    \item 578 mil points (ground 30 mil)
+    \item 15 mil cells in 8km\,$\times$\,7km at~resolution 2m
+    \begin{itemize}
+    \item faster to loop through
+    \end{itemize}
+  \end{itemize}
+  \item raster
+  \begin{itemize}
+    \item natural spatial index
+    \item that's what the algorithms use
+  \end{itemize}
+\end{itemize}
+
+\end{column}
+\begin{column}{0.45\textwidth}
+
+\begin{center}
+  \includegraphics[width=0.75\textwidth]{grass/rinlidar_region}
+  \\
+  \tiny
+  \textcolor{gray}{point density (all classes) at 5m, green $\sim200$ points}
 \end{center}
 
 \end{column}
@@ -599,7 +661,7 @@ Geomorphons - a pattern recognition approach to classification and mapping of la
 \begin{block}{Software: GRASS GIS}
 Presented functionality is work done by Vaclav Petras, Markus Metz, and the GRASS development team.
 Thanks to users for feedback and testing, especially to
-Doug Newcomb, Markus Neteler, Laura Belica, and William Hargrove.
+Douglas Newcomb, Markus Neteler, Laura Belica, and William Hargrove.
 \end{block}
 
 \begin{block}{Datasets}
