@@ -272,6 +272,63 @@ available at\\
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Workflow overview}
+
+\begin{columns}
+\begin{column}{0.3\textwidth}
+
+ \begin{itemize}
+  \item points $\rightarrow$ binning $\rightarrow$ raster $\rightarrow$ analysis
+  \item points $\longrightarrow$ decimation $\longrightarrow$ vector
+  \begin{itemize}
+    \item analysis
+    \item interpolation $\rightarrow$ raster $\rightarrow$ analysis
+  \end{itemize}
+\end{itemize}
+
+\end{column}
+\begin{column}{0.68\textwidth}
+
+\begin{center}
+  \includegraphics[width=\textwidth]%
+%   \includegraphics[height=0.5\textheight]%
+    {grass/range_on_ground_from_north}
+
+  \footnotesize
+  \textcolor{gray}{
+  range from \gmodule{r.in.lidar} on ground obtained
+  from \gmodule{v.in.lidar} followed by \gmodule{v.surf.rst}
+  }
+\end{center}
+
+\end{column}
+\end{columns}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Binning as 2D histogram}
+
+\begin{columns}
+\begin{column}{0.4\textwidth}
+
+ \begin{itemize}
+  \item number of points in cell
+\end{itemize}
+
+\end{column}
+\begin{column}{0.45\textwidth}
+
+\begin{center}
+  \includegraphics[width=0.75\textwidth]{features/binning_count}
+\end{center}
+
+\end{column}
+\end{columns}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Binning points to raster}
 
 \begin{columns}
@@ -284,15 +341,39 @@ available at\\
     \item n, min, max, sum
     \item mean, range, skewness, \ldots
   \end{itemize}
-  \item multiple input files at once
-  \item subsequent raster-based processing
 \end{itemize}
 
 \end{column}
 \begin{column}{0.45\textwidth}
 
 \begin{center}
-  \includegraphics[width=0.75\textwidth]{grass/rinlidar_region}
+  \includegraphics[width=0.75\textwidth]{features/binning_mean}
+\end{center}
+
+\end{column}
+\end{columns}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{\gmodule{r.in.lidar}}
+
+\begin{columns}
+\begin{column}{0.45\textwidth}
+
+ \begin{itemize}
+  \item analytical and practical functions
+  \begin{itemize}
+  \item multiple tiles at once
+  \end{itemize}
+\end{itemize}
+
+\end{column}
+\begin{column}{0.54\textwidth}
+
+\begin{center}
+  \includegraphics[width=\textwidth]{features/tiles}
 \end{center}
 
 \end{column}
@@ -314,6 +395,7 @@ available at\\
     \item class
     \item \ldots
   \end{itemize}
+  \item at the time of binning with \gmodule{r.in.lidar}
 \end{itemize}
 
 \end{column}
@@ -336,6 +418,8 @@ available at\\
 
 \begin{itemize}
   \item new feature in \gmodule{r.in.lidar}
+  \item given surface $+$ points cloud\\
+    $\longrightarrow$ height of features
 \end{itemize}
 
 \begin{center}
