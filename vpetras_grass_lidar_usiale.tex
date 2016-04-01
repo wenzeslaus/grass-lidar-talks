@@ -203,7 +203,7 @@ Douglas Newcomb, Helena Mitasova, Markus Neteler, Laura Belica, and William Harg
 
 \begin{block}{Datasets}
 \footnotesize
-UAV Structure from Motion (SfM) data for
+Lidar and UAV Structure from Motion (SfM) data for
 \href{http://ncsu-osgeorel.github.io/uav-lidar-analytics-course/}%
   {GIS595/MEA792: UAV/lidar Data Analytics} course
 
@@ -267,19 +267,25 @@ Obtained from \href{http://www.opentopography.org/}{OpenTopography}.
 \begin{columns}
 \begin{column}{0.4\textwidth}
 
+Scripts and code I'm writing
+
 \begin{itemize}
-  \item driven by needs of users
-  \item re-usable
   \item review
-  \item usable
+  \item re-usable
   \begin{itemize}
   \item by other people
   \item by future myself
   \end{itemize}
+\end{itemize}
+
+Software I'm using
+
+\begin{itemize}
+  \item driven by needs of users
   \item longevity
   \begin{itemize}
   \item learn now, use forever
-  \item GRASS GIS over 30 years of development
+  \item GRASS GIS: over 30 years of development
   \end{itemize}
 \end{itemize}
 
@@ -335,35 +341,8 @@ Obtained from \href{http://www.opentopography.org/}{OpenTopography}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Workflow overview}
 
-\begin{columns}
-\begin{column}{0.3\textwidth}
-
- \begin{itemize}
-  \item points $\rightarrow$ binning $\rightarrow$ raster $\rightarrow$ analysis
-  \item points $\longrightarrow$ decimation $\longrightarrow$ vector
-  \begin{itemize}
-    \item analysis
-    \item interpolation $\rightarrow$ raster $\rightarrow$ analysis
-  \end{itemize}
-\end{itemize}
-
-\end{column}
-\begin{column}{0.68\textwidth}
-
-\begin{center}
-  \includegraphics[width=\textwidth]%
-%   \includegraphics[height=0.5\textheight]%
-    {grass/range_on_ground_from_north}
-
-  \footnotesize
-  \textcolor{gray}{
-  range from \gmodule{r.in.lidar} on ground obtained
-  from \gmodule{v.in.lidar} followed by \gmodule{v.surf.rst}
-  }
-\end{center}
-
-\end{column}
-\end{columns}
+\includegraphics[width=\textwidth]%
+    {grass/workflow}
 
 \end{frame}
 
@@ -418,19 +397,20 @@ Obtained from \href{http://www.opentopography.org/}{OpenTopography}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{\gmodule{r.in.lidar}}
+\begin{frame}{Practical functions}
 
 \begin{columns}
 \begin{column}{0.45\textwidth}
 
  \begin{itemize}
-  \item analytical and practical functions
-  \begin{itemize}
-  \item reads multiple tiles as one
+  \item analytical and practical functions in \gmodule{r.in.lidar}
+  %\begin{itemize}
+  \item read multiple tiles as one
     \begin{itemize}
+    \item no merging
     \item 0.5 billion points in 90 files in minutes
     \end{itemize}
-  \end{itemize}
+  %\end{itemize}
 \end{itemize}
 
 \end{column}
@@ -460,6 +440,9 @@ Obtained from \href{http://www.opentopography.org/}{OpenTopography}.
     \item \ldots
   \end{itemize}
   \item at the time of binning with \gmodule{r.in.lidar}
+    \begin{itemize}
+    \item minimal additional cost
+    \end{itemize}
 \end{itemize}
 
 \end{column}
@@ -481,14 +464,20 @@ Obtained from \href{http://www.opentopography.org/}{OpenTopography}.
 \begin{column}{0.4\textwidth}
 
 \begin{itemize}
-  \item new feature in \gmodule{r.in.lidar}
+  \item new base raster feature in \gmodule{r.in.lidar}
   \item given surface $+$ points cloud\\
     $\longrightarrow$ height of features
 \end{itemize}
 
+\medskip
+
 \begin{center}
 \includegraphics[width=\textwidth]{images/features/base_raster}
 \end{center}
+
+\begin{itemize}
+  \item \small not limited by memory
+\end{itemize}
 
 \end{column}
 \begin{column}{0.55\textwidth}
@@ -516,6 +505,7 @@ Obtained from \href{http://www.opentopography.org/}{OpenTopography}.
     \item 15 mil cells in 8km\,$\times$\,7km at~resolution 2m
     \begin{itemize}
     \item faster to loop through
+    \item less disk space
     \end{itemize}
   \end{itemize}
   \item raster
@@ -588,7 +578,9 @@ Obtained from \href{http://www.opentopography.org/}{OpenTopography}.
 
 \bigskip
 \footnotesize
-under development
+height reduction by base raster under development
+\tiny
+(analysis and space efficient)
 
 \end{column}
 \begin{column}{0.7\textwidth}
@@ -604,34 +596,36 @@ under development
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Decimation, sampling, interpolation}
+\begin{frame}{Decimation}
 
 \begin{columns}
-\begin{column}{0.3\textwidth}
+\begin{column}{0.58\textwidth}
 
 \begin{itemize}
   \item \gmodule{v.in.lidar}
+  \begin{itemize}
   \item filtering same as in \gmodule{r.in.lidar}
-  \item followed by interpolation (costly)
+  \end{itemize}
+  \item often more points than we need {\small\\ (research shows, Singh et al. 2015, Petras et al. 2016)}
+  \item interpolation, clustering, \ldots\ are costly
   \item decimation~$\approx$~sampling
   \begin{itemize}
-  \item fast count-based as effective as more advanced decimation
+    \item fast count-based as effective as more advanced decimation
   \end{itemize}
 \end{itemize}
 
 \end{column}
-\begin{column}{0.68\textwidth}
+\begin{column}{0.22\textwidth}
 
 % TODO: UAV image
 
 \begin{center}
-  \includegraphics[width=\textwidth]{grass/range_on_ground_from_north}
+\includegraphics[width=\textwidth]{features/full}
 
-  \footnotesize
-  \textcolor{gray}{
-  range from \gmodule{r.in.lidar} on ground obtained
-  from \gmodule{v.in.lidar} followed by \gmodule{v.surf.rst}
-  }
+\smallskip
+
+\includegraphics[width=\textwidth]{features/preserve}
+
 \end{center}
 
 \end{column}
@@ -643,11 +637,22 @@ under development
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Large point clouds}
 
+\begin{columns}
+\begin{column}{0.44\textwidth}
+
+Rasters (binning of points)
+
 \begin{itemize}
-  \item trade-offs: a lot of memory (RAM) or slow
+  \item trade-off: memory (RAM) or slow
   \item 64bit version
-  \item Brunswick county: $\approx$1050 files, $>9$ billion points, $\approx$0.5 hour % method=n, 2.5GB (40 thousand x 40 thousand cells, 5 ft res, >1.5 bil cells)
-  \item Hyde county: $\approx$950 files, $>4$ billion points, base elevation 5ft raster, 60ft height, $\approx$3 hours % 2.4 billion cells in base rast, about half water
+\end{itemize}
+
+\end{column}
+\begin{column}{0.44\textwidth}
+
+Vectors (points as points)
+
+\begin{itemize}
   \item point cloud specific optimizations
   \begin{itemize}
   \item no IDs stored
@@ -655,6 +660,32 @@ under development
   \item no topology created
   \end{itemize}
 \end{itemize}
+
+\end{column}
+\end{columns}
+
+\begin{columns}
+\begin{column}{0.44\textwidth}
+
+\textcolor{gray}{
+\footnotesize
+Brunswick county: binning, $\approx$1050 files, $>9$ billion points, $\approx$0.5 hour % method=n, 2.5GB (40 thousand x 40 thousand cells, 5 ft res, >1.5 bil cells)
+\\
+Hyde county: binning, $\approx$950 files, $>4$ billion points, base elevation 5ft raster, 60ft height, $\approx$3 hours % 2.4 billion cells in base rast, about half water
+}
+
+\end{column}
+\begin{column}{0.44\textwidth}
+
+\includegraphics[width=\textwidth]{grass/range_on_ground_from_north}
+%   \tiny
+%   \textcolor{gray}{
+%   range from \gmodule{r.in.lidar} on ground obtained
+%   from \gmodule{v.in.lidar} followed by \gmodule{v.surf.rst}
+%   }
+
+\end{column}
+\end{columns}
 
 \end{frame}
 
