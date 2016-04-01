@@ -203,7 +203,7 @@ Douglas Newcomb, Helena Mitasova, Markus Neteler, Laura Belica, and William Harg
 
 \begin{block}{Datasets}
 \footnotesize
-Data for
+UAV Structure from Motion (SfM) data for
 \href{http://ncsu-osgeorel.github.io/uav-lidar-analytics-course/}%
   {GIS595/MEA792: UAV/lidar Data Analytics} course
 
@@ -426,7 +426,10 @@ Obtained from \href{http://www.opentopography.org/}{OpenTopography}.
  \begin{itemize}
   \item analytical and practical functions
   \begin{itemize}
-  \item multiple tiles at once
+  \item reads multiple tiles as one
+    \begin{itemize}
+    \item 0.5 billion points in 90 files in minutes
+    \end{itemize}
   \end{itemize}
 \end{itemize}
 
@@ -643,6 +646,8 @@ under development
 \begin{itemize}
   \item trade-offs: a lot of memory (RAM) or slow
   \item 64bit version
+  \item Brunswick county: $\approx$1050 files, $>9$ billion points, $\approx$0.5 hour % method=n, 2.5GB (40 thousand x 40 thousand cells, 5 ft res, >1.5 bil cells)
+  \item Hyde county: $\approx$950 files, $>4$ billion points, base elevation 5ft raster, 60ft height, $\approx$3 hours % 2.4 billion cells in base rast, about half water
   \item point cloud specific optimizations
   \begin{itemize}
   \item no IDs stored
