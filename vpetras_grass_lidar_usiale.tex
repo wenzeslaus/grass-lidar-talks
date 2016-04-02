@@ -644,8 +644,13 @@ Rasters (binning of points)
 
 \begin{itemize}
   \item trade-off: memory (RAM) or slow
+  \begin{itemize}
+  \item \tiny your operating system may limit max memory
+  \end{itemize}
   \item 64bit version
 \end{itemize}
+
+\vspace{2.2ex}
 
 \end{column}
 \begin{column}{0.44\textwidth}
@@ -669,9 +674,11 @@ Vectors (points as points)
 
 \textcolor{gray}{
 \footnotesize
-Brunswick county: binning, $\approx$1050 files, $>9$ billion points, $\approx$0.5 hour % method=n, 2.5GB (40 thousand x 40 thousand cells, 5 ft res, >1.5 bil cells)
+Brunswick county: binning, $\approx$1050 files, $>9$~billion points % method=n, 13GB (40 thousand x 40 thousand cells, 5 ft res, >1.5 bil cells)
 \\
-Hyde county: binning, $\approx$950 files, $>4$ billion points, base elevation 5ft raster, 60ft height, $\approx$3 hours % 2.4 billion cells in base rast, about half water
+Hyde county: binning, $\approx$950 files, $>4$~billion points, base elevation 5ft raster, 60ft height raster % 2.4 billion cells in base rast, about half water
+\\
+$\approx$0.5-3~hours, 1-13GB of memory \tiny (in-memory mode)
 }
 
 \end{column}
@@ -836,6 +843,7 @@ Geomorphons - a pattern recognition approach to classification and mapping of la
 
 \begin{block}{PDAL}
  \begin{itemize}
+  \item Point Data Abstraction Library
   \item formats besides LAS/LAZ
   \item algorithms, filters, decimations
  \end{itemize}
