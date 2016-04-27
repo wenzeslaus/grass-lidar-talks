@@ -19,6 +19,8 @@
 \usepackage{url}
 \usepackage{amssymb}
 
+\usepackage{alltt}
+
 \usepackage{tikz}
 \usetikzlibrary{arrows,shapes,spy,calc}
 
@@ -230,7 +232,7 @@ available at\\
 \begin{frame}{CLI}
 
 \begin{center}
-  \includegraphics[width=0.9\textwidth]{grass/r_in_lidar_gui}
+  \includegraphics[width=0.9\textwidth]{grass/grass_cli}
 \end{center}
 
 \end{frame}
@@ -244,6 +246,66 @@ available at\\
 
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Python}
+
+\begin{center}
+  \includegraphics[width=0.9\textwidth]{grass/grass_pyedit}
+\end{center}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Python}
+
+\definecolor{mod}{RGB}{7,96,143}
+\definecolor{opt}{RGB}{239,84,18}
+\definecolor{flg}{RGB}{239,84,18}
+\definecolor{txt}{RGB}{45,146,45}
+\definecolor{import}{RGB}{200,200,200}
+
+\Large
+
+Documentation, Command Line, Shell, Bash:
+
+\LARGE
+
+\begin{alltt}
+\textcolor{mod}{r.in.lidar} \textcolor{opt}{input}=\textcolor{txt}{points.las}
+  \textcolor{opt}{output}=\textcolor{txt}{elevation} -\textcolor{flg}{e}
+\end{alltt}
+
+\bigskip
+
+\Large
+
+Python:
+
+% \char`_ is to get same underscore as in \verb
+
+\LARGE
+
+\begin{alltt}
+\textcolor{import}{from grass.script import run\char`_command}
+\\
+run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textcolor{txt}{points.las}",
+
+\newlength{\pyindent}
+\settowidth{\pyindent}{run\_command(}
+\rule{\pyindent}{0pt}\,%
+\textcolor{opt}{output}="\textcolor{txt}{elevation}", flags='\textcolor{flg}{e}')
+\end{alltt}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{GUI}
+
+\begin{center}
+  \includegraphics[width=0.75\textwidth]{grass/r_in_lidar_dialog}
+\end{center}
+
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Points}
