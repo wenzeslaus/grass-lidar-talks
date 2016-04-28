@@ -370,8 +370,11 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
   \item \gmodule{v.surf.rst}
   \begin{itemize}
     \item Regularized Spline with Tension
+    \item \gmodule{v.surf.rst.mp} (experimental)
+    \begin{itemize}
+      \item 2 millions of points in 11 minutes
+    \end{itemize}
   \end{itemize}
-  % TODO: 2.1 mil bodov mi v.surf.rst.mp zrata za 11 min.,
 \end{itemize}
 
 \end{column}
@@ -426,9 +429,105 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
 
 \end{frame}
 
-% grass vectors
-% v.external PDAL, PDAL C API (future)
-% v.in.pdal (now)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{GRASS vector model and format}
+
+\begin{columns}
+\begin{column}{0.45\textwidth}
+
+\begin{itemize}
+  \item topology and index
+  \begin{itemize}
+    \item can be disabled (\textit{-b} flag)
+  \end{itemize}
+  \item attributes in a database
+  \begin{itemize}
+    \item SQLite, PostgreSQL, \ldots
+    \item can be disabled (\textit{-t} flag)
+  \end{itemize}
+  \item each feature can have any number of categories/classes
+\end{itemize}
+
+\end{column}
+\begin{column}{0.5\textwidth}
+
+\begin{center}
+\includegraphics[width=\textwidth]{features/class_as_cat}
+\end{center}
+
+\end{column}
+\end{columns}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Linked external data}
+
+\begin{columns}
+\begin{column}{0.45\textwidth}
+
+\begin{itemize}
+  \item \gmodule{v.external}
+  \begin{itemize}
+    \item vector data
+    \begin{itemize}
+      \item GDAL/OGR
+      \item PostGIS including topology
+    \end{itemize}
+  \end{itemize}
+  \item missing: libLAS/PDAL backend
+  \begin{itemize}
+    \item intermediate C API needed on PDAL or GRASS GIS site
+  \end{itemize}
+\end{itemize}
+
+\end{column}
+\begin{column}{0.5\textwidth}
+
+\begin{center}
+\includegraphics[width=\textwidth]{features/class_as_cat}
+\end{center}
+
+\end{column}
+\end{columns}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Integration with PDAL}
+
+\begin{columns}
+\begin{column}{0.5\textwidth}
+
+\begin{block}{PDAL}
+ \begin{itemize}
+  \item Point Data Abstraction Library
+  \item formats besides LAS/LAZ
+  \item algorithms, filters, decimations
+ \end{itemize}
+\end{block}
+
+\begin{block}{Experimental integration}
+ \begin{itemize}
+  \item \module{v.in.pdal}
+  \item reprojection during import
+  \item ground filter
+  \item compute height as a difference from ground
+ \end{itemize}
+\end{block}
+
+\end{column}
+\begin{column}{0.25\textwidth}
+
+\begin{center}
+  \includegraphics[width=\textwidth]{logos/pdal_bubbles}\\
+  \includegraphics[width=\textwidth]{logos/pdal_text}
+\end{center}
+
+\end{column}
+\end{columns}
+
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Binning as 2D histogram}
@@ -850,41 +949,6 @@ Geomorphons - a pattern recognition approach to classification and mapping of la
 
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Integration with PDAL}
-
-\begin{columns}
-\begin{column}{0.5\textwidth}
-
-\begin{block}{PDAL}
- \begin{itemize}
-  \item Point Data Abstraction Library
-  \item formats besides LAS/LAZ
-  \item algorithms, filters, decimations
- \end{itemize}
-\end{block}
-
-\begin{block}{Experimental integration}
- \begin{itemize}
-  \item \module{v.in.pdal}
-  \item reprojection during import
-  \item ground filter
-  \item compute height as a difference from ground
- \end{itemize}
-\end{block}
-
-\end{column}
-\begin{column}{0.25\textwidth}
-
-\begin{center}
-  \includegraphics[width=\textwidth]{logos/pdal_bubbles}\\
-  \includegraphics[width=\textwidth]{logos/pdal_text}
-\end{center}
-
-\end{column}
-\end{columns}
-
-\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{libfreenect2 + PCL + GRASS GIS = \module{r.in.kinect}}
@@ -895,9 +959,9 @@ Geomorphons - a pattern recognition approach to classification and mapping of la
 \begin{block}{\module{r.in.kinect}}
  \begin{itemize}
   \item scans using Kinect
-  \item Point Cloud Library (PCL)
   \item OpenKinect libfreenect2
-  \item GRASS GIS
+  \item Point Cloud Library (PCL)
+  \item GRASS GIS libraries
   \begin{itemize}
     \item C API
     \item raster processing
@@ -914,7 +978,7 @@ Geomorphons - a pattern recognition approach to classification and mapping of la
 used in Tangible~Landscape
 
 \end{column}
-\begin{column}{0.3\textwidth}
+\begin{column}{0.2\textwidth}
 
 \includegraphics[width=\textwidth]{logos/tangible_landscape}
 
@@ -926,7 +990,7 @@ used in Tangible~Landscape
 \begin{column}{0.45\textwidth}
 
 \begin{center}
-  \includegraphics[width=\textwidth]{tangible/elevation_and_histogram}
+  \includegraphics[width=\textwidth]{tangible/face}
 \end{center}
 
 \end{column}
