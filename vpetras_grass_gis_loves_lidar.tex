@@ -299,10 +299,19 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{GUI}
+\begin{frame}{Module GUI}
 
 \begin{center}
   \includegraphics[width=0.75\textwidth]{grass/r_in_lidar_dialog}
+\end{center}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Graphical Modeler}
+
+\begin{center}
+  \includegraphics[width=0.9\textwidth]{grass/modeler}
 \end{center}
 
 \end{frame}
@@ -325,8 +334,7 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
 \begin{center}
   \includegraphics[width=\textwidth]{agisoft_detail}
   \\
-  \tiny
-  \textcolor{gray}{surface interpolated from points from SfM}
+  \textcolor{gray}{surface interpolated from points and visualized in GRASS GIS}
 \end{center}
 
 \end{column}
@@ -342,6 +350,85 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
     {grass/workflow}
 
 \end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Surface interpolation}
+
+\begin{columns}
+\begin{column}{0.5\textwidth}
+
+\begin{itemize}
+  \item \gmodule{v.surf.idw}
+  \begin{itemize}
+    \item Inverse Distance squared Weighting
+  \end{itemize}
+  \item \gmodule{v.surf.bspline}
+  \begin{itemize}
+    \item Bicubic or bilinear Spline interpolation with Tykhonov regularization
+  \end{itemize}
+  \item \gmodule{v.surf.rst}
+  \begin{itemize}
+    \item Regularized Spline with Tension
+  \end{itemize}
+  % TODO: 2.1 mil bodov mi v.surf.rst.mp zrata za 11 min.,
+\end{itemize}
+
+\end{column}
+\begin{column}{0.4\textwidth}
+
+\begin{center}
+\includegraphics[width=\textwidth]{features/surface}
+\end{center}
+
+\end{column}
+\end{columns}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Import and decimation}
+
+\begin{columns}
+\begin{column}{0.58\textwidth}
+
+\begin{itemize}
+  \item \gmodule{v.in.lidar}
+  \begin{itemize}
+   \item libLAS
+   \item LAS/LAZ to GRASS GIS native vector
+  \end{itemize}
+  \item decimation~$\approx$~thinning~$\approx$~sampling
+  \begin{itemize}
+    \item count-based decimation (skips points)
+    \item grid-based experimental, others needed?  % TODO: grid-based also through r.in.lidar
+    \item fast count-based as good as more advanced decimations
+  \end{itemize}
+\end{itemize}
+
+\end{column}
+\begin{column}{0.22\textwidth}
+
+% TODO: UAV image
+
+\begin{center}
+\includegraphics[width=\textwidth]{features/full}
+
+\smallskip
+
+\includegraphics[width=\textwidth]{features/preserve}
+
+\end{center}
+
+\end{column}
+\end{columns}
+
+\end{frame}
+
+% grass vectors
+% v.external PDAL, PDAL C API (future)
+% v.in.pdal (now)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Binning as 2D histogram}
@@ -456,7 +543,7 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Height above a surface}
-
+% TODO: diff resolutions
 \begin{columns}
 \begin{column}{0.4\textwidth}
 
@@ -514,7 +601,7 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
 
 \end{column}
 \begin{column}{0.45\textwidth}
-
+% TODO: slide for this picture
 \begin{center}
   \includegraphics[width=0.75\textwidth]{grass/segment_on_counts}
   \\
@@ -590,46 +677,7 @@ height reduction by base raster under development
 \end{columns}
 
 \end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Decimation}
-
-\begin{columns}
-\begin{column}{0.58\textwidth}
-
-\begin{itemize}
-  \item \gmodule{v.in.lidar}
-  \begin{itemize}
-  \item filtering same as in \gmodule{r.in.lidar}
-  \end{itemize}
-  \item often more points than we need {\small\\ (research shows, Singh et al. 2015, Petras et al. 2016)}
-  \item interpolation, clustering, \ldots\ are costly
-  \item decimation~$\approx$~sampling
-  \begin{itemize}
-    \item fast count-based as effective as more advanced decimation
-  \end{itemize}
-\end{itemize}
-
-\end{column}
-\begin{column}{0.22\textwidth}
-
-% TODO: UAV image
-
-\begin{center}
-\includegraphics[width=\textwidth]{features/full}
-
-\smallskip
-
-\includegraphics[width=\textwidth]{features/preserve}
-
-\end{center}
-
-\end{column}
-\end{columns}
-
-\end{frame}
-
+% TODO: reduced 3D raster
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Large point clouds}
@@ -837,6 +885,55 @@ Geomorphons - a pattern recognition approach to classification and mapping of la
 \end{columns}
 
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{libfreenect2 + PCL + GRASS GIS = \module{r.in.kinect}}
+
+\begin{columns}
+\begin{column}{0.5\textwidth}
+
+\begin{block}{\module{r.in.kinect}}
+ \begin{itemize}
+  \item scans using Kinect
+  \item Point Cloud Library (PCL)
+  \item OpenKinect libfreenect2
+  \item GRASS GIS
+  \begin{itemize}
+    \item C API
+    \item raster processing
+    \item regularized spline with tension interpolation
+  \end{itemize}
+ \end{itemize}
+\end{block}
+
+% inner columns
+\begin{columns}
+\begin{column}{0.6\textwidth}
+\small
+
+used in Tangible~Landscape
+
+\end{column}
+\begin{column}{0.3\textwidth}
+
+\includegraphics[width=\textwidth]{logos/tangible_landscape}
+
+\end{column}
+\end{columns}
+% end of inner columns
+
+\end{column}
+\begin{column}{0.45\textwidth}
+
+\begin{center}
+  \includegraphics[width=\textwidth]{tangible/elevation_and_histogram}
+\end{center}
+
+\end{column}
+\end{columns}
+
+\end{frame}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
