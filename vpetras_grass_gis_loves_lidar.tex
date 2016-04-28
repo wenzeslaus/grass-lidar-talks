@@ -401,6 +401,7 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
   \begin{itemize}
    \item libLAS
    \item LAS/LAZ to GRASS GIS native vector
+    \item data stored in GRASS GIS database
   \end{itemize}
   \item decimation~$\approx$~thinning~$\approx$~sampling
   \begin{itemize}
@@ -467,6 +468,11 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
 \begin{column}{0.45\textwidth}
 
 \begin{itemize}
+  \item \gmodule{r.external}
+  \begin{itemize}
+    \item raster data (GDAL)
+    \item \gmodule{r.external.out} for newly created data
+  \end{itemize}
   \item \gmodule{v.external}
   \begin{itemize}
     \item vector data
@@ -474,6 +480,9 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
       \item GDAL/OGR
       \item PostGIS including topology
     \end{itemize}
+    \item \gmodule{v.external.out} for newly created data
+    \item alternative: @OGR
+      \\\tiny\texttt{v.info map=.../directory@OGR layer=file}
   \end{itemize}
   \item missing: libLAS/PDAL backend
   \begin{itemize}
@@ -485,7 +494,7 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
 \begin{column}{0.5\textwidth}
 
 \begin{center}
-\includegraphics[width=\textwidth]{features/class_as_cat}
+\includegraphics[width=\textwidth]{features/external_data}
 \end{center}
 
 \end{column}
@@ -494,7 +503,7 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Integration with PDAL}
+\begin{frame}{Current state of integration with PDAL}
 
 \begin{columns}
 \begin{column}{0.5\textwidth}
@@ -502,17 +511,21 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
 \begin{block}{PDAL}
  \begin{itemize}
   \item Point Data Abstraction Library
-  \item formats besides LAS/LAZ
-  \item algorithms, filters, decimations
+  \item format conversions
+  \item processing, filtering
  \end{itemize}
 \end{block}
 
 \begin{block}{Experimental integration}
  \begin{itemize}
   \item \module{v.in.pdal}
-  \item reprojection during import
-  \item ground filter
-  \item compute height as a difference from ground
+  \begin{itemize}
+    \item next: \module{r.in.pdal}, \module{r3.in.pdal}
+  \end{itemize}
+  \item runs PDAL filters during import
+  \begin{itemize}
+    \item filters are followed by GRASS processing
+  \end{itemize}
  \end{itemize}
 \end{block}
 
@@ -529,14 +542,21 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
 
 \end{frame}
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Binning as 2D histogram}
+\begin{frame}{Binning points to raster}
 
 \begin{columns}
 \begin{column}{0.4\textwidth}
 
  \begin{itemize}
-  \item counts number of points in cell
+  \item \gmodule{r.in.lidar}
+  \item import and analysis
+  \item statistics of point counts, height and intensity
+  \begin{itemize}
+    \item n, min, max, sum
+    \item mean, range, skewness, \ldots
+  \end{itemize}
 \end{itemize}
 
 \end{column}
@@ -551,45 +571,18 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
 
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Binning points to raster}
-
-\begin{columns}
-\begin{column}{0.4\textwidth}
-
- \begin{itemize}
-  \item \gmodule{r.in.lidar} (import and analysis)
-  \item statistics of point counts, height and intensity
-  \begin{itemize}
-    \item n, min, max, sum
-    \item mean, range, skewness, \ldots
-  \end{itemize}
-\end{itemize}
-
-\end{column}
-\begin{column}{0.45\textwidth}
-
-\begin{center}
-  \includegraphics[width=0.75\textwidth]{features/binning_mean}
-\end{center}
-
-\end{column}
-\end{columns}
-
-\end{frame}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Practical functions}
+\begin{frame}{Read multiple tiles as one}
 
 \begin{columns}
 \begin{column}{0.45\textwidth}
 
  \begin{itemize}
-  \item analytical and practical functions in \gmodule{r.in.lidar}
+  \item \gmodule{r.in.lidar}, option \textit{file}
   %\begin{itemize}
-  \item read multiple tiles as one
     \begin{itemize}
+    \item read multiple tiles as one
     \item no merging
     \item 0.5 billion points in 90 files in minutes
     \end{itemize}
@@ -612,7 +605,7 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
 \begin{frame}{Filtering points}
 
 \begin{columns}
-\begin{column}{0.38\textwidth}
+\begin{column}{0.45\textwidth}
 
  \begin{itemize}
   \item filter points by
@@ -629,10 +622,10 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
 \end{itemize}
 
 \end{column}
-\begin{column}{0.6\textwidth}
+\begin{column}{0.53\textwidth}
 
 \begin{center}
-  \includegraphics[width=0.75\textwidth]{features/zrange}
+  \includegraphics[width=0.88\textwidth]{features/zrange}
 \end{center}
 
 \end{column}
@@ -643,23 +636,42 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Height above a surface}
 % TODO: diff resolutions
+
+\begin{itemize}
+  \item \gmodule{r.in.lidar}, option \textit{base\_raster}
+  \item given surface $+$ points cloud
+    $\longrightarrow$ height of features
+\end{itemize}
+
+\begin{center}
+  \includegraphics[width=0.7\textwidth]{images/features/base_raster}
+\end{center}
+
+\begin{itemize}
+  \item low additional memory requirements
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Height above a surface}
+
 \begin{columns}
 \begin{column}{0.4\textwidth}
 
 \begin{itemize}
-  \item new base raster feature in \gmodule{r.in.lidar}
-  \item given surface $+$ points cloud\\
-    $\longrightarrow$ height of features
-\end{itemize}
-
-\medskip
-
-\begin{center}
-\includegraphics[width=\textwidth]{images/features/base_raster}
-\end{center}
-
-\begin{itemize}
-  \item \small not limited by memory
+ \item different resolutions
+  \begin{itemize}
+    \item \rule{0pt}{0pt}\phantom{0}1m ground surface
+    \item 30m height above ground
+  \end{itemize}
+  \item different statistics
+  \item different combinations
+  \begin{itemize}
+    \item surface can be e.g. top of the canopy
+    \item combine with \textit{zrange}
+    \item combine with intensity
+  \end{itemize}
 \end{itemize}
 
 \end{column}
@@ -676,36 +688,31 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Rasterize early}
+\begin{frame}{Rastersize early}
 
 \begin{columns}
-\begin{column}{0.4\textwidth}
+\begin{column}{0.5\textwidth}
 
 \begin{itemize}
-  \item less cells then points
+  \item many algorithms are raster-based
   \begin{itemize}
-    \item 578 mil points (ground 30 mil)
-    \item 15 mil cells in 8km\,$\times$\,7km at~resolution 2m
-    \begin{itemize}
-    \item faster to loop through
-    \item less disk space
-    \end{itemize}
-  \end{itemize}
-  \item raster
-  \begin{itemize}
+    \item a lot of data with continuous nature
     \item natural spatial index
-    \item that's what the algorithms use
+  \end{itemize}
+  \item example
+  \begin{itemize}
+    \item count of ground points
+    \item count of non-ground points
+    \item used as image bands
+    \item segmentation using \gmodule{i.segment}
   \end{itemize}
 \end{itemize}
 
 \end{column}
 \begin{column}{0.45\textwidth}
-% TODO: slide for this picture
+
 \begin{center}
-  \includegraphics[width=0.75\textwidth]{grass/segment_on_counts}
-  \\
-  \tiny
-  \textcolor{gray}{\gmodule{i.segment} on different point counts}
+  \includegraphics[width=0.9\textwidth]{grass/segment_on_counts}
 \end{center}
 
 \end{column}
@@ -1067,7 +1074,7 @@ Presented functionality is work done by Vaclav Petras, Markus Metz, and the GRAS
 \bigskip
 
 Thanks to users for feedback and testing, especially to
-Douglas Newcomb, Helena Mitasova, Markus Neteler, Laura Belica, and William Hargrove.
+Doug Newcomb, Helena Mitasova, Markus Neteler, Laura Belica, and William Hargrove.
 \end{block}
 
 \end{column}
