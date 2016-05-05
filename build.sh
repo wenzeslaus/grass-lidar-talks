@@ -26,7 +26,7 @@ cp index.html ${build}/index.html
 sed -e "s/aspectratio=1610/aspectratio=169/g" < ${project_582}.tex > ${project_582}_16x9.tex
 sed -e "s/aspectratio=1610/aspectratio=43/g" < ${project_582}.tex > ${project_582}_4x3.tex
 sed -e "s/aspectratio=169/aspectratio=43/g" < ${usiale}.tex > ${usiale}_4x3.tex
-sed -e "s/aspectratio=169/aspectratio=43/g" < ${foss4gna}.tex > ${foss4gna}_4x3.tex
+sed -e "s/aspectratio=43/aspectratio=169/g" < ${foss4gna}.tex > ${foss4gna}_16x9.tex
 
 # build PDFs
 tex_to_pdf ${project_582} &
@@ -37,7 +37,7 @@ tex_to_pdf ${fwstalk} &
 tex_to_pdf ${usiale} &
 tex_to_pdf ${usiale}_4x3 &
 tex_to_pdf ${foss4gna} &
-tex_to_pdf ${foss4gna}_4x3 &
+tex_to_pdf ${foss4gna}_16x9 &
 
 wait
 
@@ -53,9 +53,9 @@ cp ${fwstalk}.pdf $build
 cp ${usiale}.pdf $build
 cp ${usiale}_4x3.pdf $build
 cp ${foss4gna}.pdf $build
-cp ${foss4gna}_4x3.pdf $build
+cp ${foss4gna}_16x9.pdf $build
 
 # remove files for alternative versions
 rm ${project_582}_16x9.* ${project_582}_4x3.*
 rm ${usiale}_4x3.*
-rm ${foss4gna}_4x3.*
+rm ${foss4gna}_16x9.*

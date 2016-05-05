@@ -2,7 +2,7 @@
 % This work by Vaclav Petras is licensed under
 % a Creative Commons Attribution-ShareAlike 4.0 International License.
 
-\documentclass[xcolor={dvipsnames,usenames},beamer,aspectratio=169]{beamer}
+\documentclass[xcolor={dvipsnames,usenames},beamer,aspectratio=43]{beamer}
 % ,handout,notes=show
 
 \makeatletter
@@ -173,13 +173,24 @@ available at\\
 \begin{frame}{GRASS GIS}
 
 \begin{columns}
-\begin{column}{0.4\textwidth}
+\begin{column}{0.6\textwidth}
 
 \begin{itemize}
-  \item longevity
+  \item all in one
   \begin{itemize}
+   \item hydrology modeling, image segmentation, point clustering, \ldots
+  \end{itemize}
+  \item from small laptops to supercomputers
+  \begin{itemize}
+   \item Raspberry Pi, Windows, Mac, GNU/Linux, GNU/Hurd, FreeBSD, IBM~AIX
+  \end{itemize}
   \item learn now, use forever
-  \item over 30 years of development
+  \begin{itemize}
+    \item over 30 years of development and interface refinement
+  \end{itemize}
+  \item probably used more than you think
+  \begin{itemize}
+    \item similarly to C/C++ is often not mentioned but is somewhere in there
   \end{itemize}
 \end{itemize}
 
@@ -190,43 +201,16 @@ available at\\
   \includegraphics[width=\textwidth]{logos/grass_gis}
 \end{center}
 
-\end{column}
-\end{columns}
-
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{GRASS GIS}
-
-\begin{columns}
-\begin{column}{0.4\textwidth}
-
-\begin{itemize}
-  \item universal scientific and processing platform
-  \begin{itemize}
-  \item GUI, CLI, Python API
-  \item from small laptops to supercomputers
-  \end{itemize}
-  \item lidar processing included
-  \item data size and type challenges
-\end{itemize}
-
-\begin{center}
-\includegraphics[width=0.3\textwidth]{logos/grass_gis}
-\end{center}
-
-\end{column}
-\begin{column}{0.55\textwidth}
-
-\begin{center}
-  \includegraphics[width=\textwidth]{grass/count_and_modules}
-\end{center}
+\textcolor{gray}{
+\footnotesize
+latest release 7.0.4 Sunday, May~1,~2016
+}
 
 \end{column}
 \end{columns}
 
 \end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{CLI}
@@ -237,6 +221,7 @@ available at\\
 
 \end{frame}
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{GUI}
 
@@ -245,6 +230,7 @@ available at\\
 \end{center}
 
 \end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Python}
@@ -255,27 +241,31 @@ available at\\
 
 \end{frame}
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Python}
+\begin{frame}{Python versus CLI}
 
 \definecolor{mod}{RGB}{7,96,143}
 \definecolor{opt}{RGB}{239,84,18}
 \definecolor{flg}{RGB}{239,84,18}
 \definecolor{txt}{RGB}{45,146,45}
+\definecolor{bash}{RGB}{200,200,200}
 \definecolor{import}{RGB}{200,200,200}
 
 \Large
 
-Documentation, Command Line, Shell, Bash:
+Documentation, Command Line (Shell, Bash, cmd.exe):
 
 \LARGE
 
 \begin{alltt}
-\textcolor{mod}{r.in.lidar} \textcolor{opt}{input}=\textcolor{txt}{points.las}
-  \textcolor{opt}{output}=\textcolor{txt}{elevation} -\textcolor{flg}{e}
+\textcolor{mod}{r.in.lidar} \textcolor{opt}{input}=\textcolor{txt}{points.las} \textcolor{bash}{\char`\\}
+\\%
+\newlength{\shindent}
+\settowidth{\shindent}{r.in.lidar~}
+\rule{\shindent}{0pt}%
+\textcolor{opt}{output}=\textcolor{txt}{elevation} -\textcolor{flg}{e}
 \end{alltt}
-
-\bigskip
 
 \Large
 
@@ -288,15 +278,23 @@ Python:
 \begin{alltt}
 \textcolor{import}{from grass.script import run\char`_command}
 \\
-run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textcolor{txt}{points.las}",
-
-\newlength{\pyindent}
-\settowidth{\pyindent}{run\_command(}
+run\char`_command('\textcolor{mod}{r.in.lidar}',
+%
+\newlength{\pyindent}%
+\settowidth{\pyindent}{run\_command(}%
+\\%
 \rule{\pyindent}{0pt}\,%
-\textcolor{opt}{output}="\textcolor{txt}{elevation}", flags='\textcolor{flg}{e}')
+\textcolor{opt}{input}="\textcolor{txt}{points.las}",
+\\%
+\rule{\pyindent}{0pt}\,%
+\textcolor{opt}{output}="\textcolor{txt}{elevation}",
+\\%
+\rule{\pyindent}{0pt}\,%
+flags='\textcolor{flg}{e}')
 \end{alltt}
 
 \end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Module GUI}
@@ -307,6 +305,7 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
 
 \end{frame}
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Graphical Modeler}
 
@@ -315,6 +314,7 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
 \end{center}
 
 \end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Points}
@@ -334,6 +334,7 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
 \begin{center}
   \includegraphics[width=\textwidth]{agisoft_detail}
   \\
+  \tiny
   \textcolor{gray}{surface interpolated from points and visualized in GRASS GIS}
 \end{center}
 
@@ -372,7 +373,7 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
     \item Regularized Spline with Tension
     \item \gmodule{v.surf.rst.mp} (experimental)
     \begin{itemize}
-      \item 2 millions of points in 11 minutes
+      \item 2 millions of points in 11~minutes
     \end{itemize}
   \end{itemize}
 \end{itemize}
@@ -446,7 +447,10 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
     \item SQLite, PostgreSQL, \ldots
     \item can be disabled (\textit{-t} flag)
   \end{itemize}
-  \item each feature can have any number of categories/classes
+  \item each feature can have any number of categories/classes%
+  \begin{itemize}
+    \item without attribute table
+  \end{itemize}
 \end{itemize}
 
 \end{column}
@@ -484,10 +488,6 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
     \item alternative: @OGR
       \\\tiny\texttt{v.info map=.../directory@OGR layer=file}
   \end{itemize}
-  \item missing: libLAS/PDAL backend
-  \begin{itemize}
-    \item intermediate C API needed on PDAL or GRASS GIS site
-  \end{itemize}
 \end{itemize}
 
 \end{column}
@@ -499,6 +499,13 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
 
 \end{column}
 \end{columns}
+
+\begin{itemize}
+  \item missing: libLAS/PDAL backend
+  \begin{itemize}
+    \item intermediate C API needed in PDAL or GRASS GIS
+  \end{itemize}
+\end{itemize}
 
 \end{frame}
 
@@ -584,10 +591,16 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
     \begin{itemize}
     \item read multiple tiles as one
     \item no merging
-    \item 0.5 billion points in 90 files in minutes
     \end{itemize}
   %\end{itemize}
 \end{itemize}
+
+\textcolor{gray}{
+\begin{center}
+\tiny
+0.5 billion points in 90 files in minutes
+\end{center}
+}
 
 \end{column}
 \begin{column}{0.54\textwidth}
@@ -699,13 +712,13 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
     \item a lot of data with continuous nature
     \item natural spatial index
   \end{itemize}
-  \item example
-  \begin{itemize}
+  \item example:
+  \begin{enumerate}
     \item count of ground points
     \item count of non-ground points
     \item used as image bands
     \item segmentation using \gmodule{i.segment}
-  \end{itemize}
+  \end{enumerate}
 \end{itemize}
 
 \end{column}
@@ -729,7 +742,7 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
 \begin{itemize}
   \item stacked 2D rasters
   \item challenging to visualize
-  \item same principles as in 2D
+  \item same principles as in~2D
   \begin{itemize}
   \item e.g. 3D raster map algebra
   \end{itemize}
@@ -766,12 +779,6 @@ run\char`_command('\textcolor{mod}{r.in.lidar}', \textcolor{opt}{input}="\textco
   \item intensity can be used instead of count
 \end{itemize}
 
-\bigskip
-\footnotesize
-height reduction by base raster under development
-\tiny
-(analysis and space efficient)
-
 \end{column}
 \begin{column}{0.7\textwidth}
 
@@ -804,61 +811,47 @@ height reduction by base raster under development
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Large point clouds}
+\begin{frame}{Trade-offs}
 
 \begin{columns}
 \begin{column}{0.44\textwidth}
 
-Rasters (binning of points)
+Raster processing
 
 \begin{itemize}
-  \item trade-off: memory (RAM) or slow
-  \item 64bit version
-  \begin{itemize}
-  \item \tiny your operating system may limit max memory
-  \end{itemize}
+  \item hight memory (RAM) usage -- fast
+  \item low memory usage (high I/O) -- slow
 \end{itemize}
 
-\vspace{2.2ex}
-
-\end{column}
-\begin{column}{0.44\textwidth}
-
-Vectors (points as points)
+Vector processing
 
 \begin{itemize}
-  \item point cloud specific optimizations
+  \item slower than raster
   \begin{itemize}
-  \item no IDs stored
-  \item no attribute table
-  \item no topology created
+  \item e.g., interpolation much slowed than binning
   \end{itemize}
+  \item hard to make general statements
 \end{itemize}
-
-\end{column}
-\end{columns}
-
-\begin{columns}
-\begin{column}{0.44\textwidth}
-
-\textcolor{gray}{
-\footnotesize
-Brunswick county: binning, $\approx$1050 files, $>9$~billion points % method=n, 13GB (40 thousand x 40 thousand cells, 5 ft res, >1.5 bil cells)
-\\
-Hyde county: binning, $\approx$950 files, $>4$~billion points, base elevation 5ft raster, 60ft height raster % 2.4 billion cells in base rast, about half water
-\\
-$\approx$0.5-3~hours, 1-13GB of memory \tiny (in-memory mode)
-}
 
 \end{column}
 \begin{column}{0.44\textwidth}
 
 \includegraphics[width=\textwidth]{grass/range_on_ground_from_north}
-%   \tiny
-%   \textcolor{gray}{
-%   range from \gmodule{r.in.lidar} on ground obtained
-%   from \gmodule{v.in.lidar} followed by \gmodule{v.surf.rst}
-%   }
+  \begin{center}
+  \tiny
+  \textcolor{gray}{
+  visualization: range from binning on interpolated surface
+  }
+  \end{center}
+
+\bigskip
+
+\textcolor{gray}{
+\footnotesize
+example: binning with base elevation subtraction: $\approx$1000 files, $>9$~billion points
+\\
+$\approx$3~hours, $\approx$10GB of memory \tiny (in-memory mode)
+}
 
 \end{column}
 \end{columns}
@@ -875,12 +868,20 @@ $\approx$0.5-3~hours, 1-13GB of memory \tiny (in-memory mode)
 \begin{itemize}
 \item \gmodule{v.lidar.edgedetection}, \gmodule{v.lidar.growing}, \gmodule{v.lidar.correction}
 \begin{itemize}
-  \item uses returns
+  \item \tiny by Brovelli, Cannata, Antolin \& Moreno
 \end{itemize}
 
 \item \amodule{v.lidar.mcc}
 \begin{itemize}
-  \item multiscale curvature based classification algorithm\footnotemark[1]
+  \item \tiny multiscale curvature based classification algorithm
+  \item \tiny by Blumentrath, according to Evans \& Hudak
+\end{itemize}
+
+\item PDAL filters.ground
+\begin{itemize}
+  \item \tiny now in v.in.pdal
+  \item \tiny progressive morphological filter by Zhang
+  \item \tiny provided by PCL
 \end{itemize}
 
 \end{itemize}
@@ -889,20 +890,11 @@ $\approx$0.5-3~hours, 1-13GB of memory \tiny (in-memory mode)
 \begin{column}{0.64\textwidth}
 
 \begin{center}
-  \includegraphics[width=\textwidth]{grass/mcc_default}
+  \includegraphics[width=\textwidth]{grass/mcc_default_smaller}
 \end{center}
 
 \end{column}
 \end{columns}
-
-\bigskip
-
-% cannot use normal footnotes because they are limited to the column
-\footnoterule
-\footnotesize
-\footnotemark[1]
-Evans, J. S. \& Hudak, A. T. 2007: A Multiscale Curvature Algorithm for Classifying Discrete Return LiDAR in Forested Environments.
-% IEEE TRANSACTIONS ON GEOSCIENCE AND REMOTE SENSING 45(4): 1029 - 1038.
 
 \end{frame}
 
@@ -953,14 +945,11 @@ Evans, J. S. \& Hudak, A. T. 2007: A Multiscale Curvature Algorithm for Classify
 
 \begin{itemize}
   \item \amodule{r.geomorphon}
-  \item geomorphons - a new approach to classification of landform\footnotemark[1]
+  \begin{itemize}
+  \item new landform classification approach
+  \item by Jasiewicz \& Stepinski
+  \end{itemize}
 \end{itemize}
-
-\footnotesize
-\footnotemark[1]
-Jasiewicz, J., Stepinski, T., 2013,
-Geomorphons - a pattern recognition approach to classification and mapping of landforms, Geomorphology%
-% vol. 182, 147-156 (DOI: 10.1016/j.geomorph.2012.11.005)
 
 \end{column}
 \begin{column}{0.68\textwidth}
@@ -1047,7 +1036,7 @@ used in Tangible~Landscape
 \includegraphics[width=\textwidth]{logos/grass_gis}
 \end{minipage}
 &
-\begin{minipage}{0.4\textwidth}
+\begin{minipage}{0.5\textwidth}
 \footnotesize
 \href{https://grass.osgeo.org/download/}{%
 Get GRASS GIS 7.1 development version at\\
