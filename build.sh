@@ -5,6 +5,7 @@ project_582=PetrasVaclav_ProjectPresentation
 fwstalk=petras_grass_lidar_fws
 usiale=vpetras_grass_lidar_usiale
 foss4gna=vpetras_grass_gis_loves_lidar
+isprs=vpetras_clouds_in_grass_isprs
 
 # how many times repeat latex
 n=3
@@ -27,6 +28,7 @@ sed -e "s/aspectratio=1610/aspectratio=169/g" < ${project_582}.tex > ${project_5
 sed -e "s/aspectratio=1610/aspectratio=43/g" < ${project_582}.tex > ${project_582}_4x3.tex
 sed -e "s/aspectratio=169/aspectratio=43/g" < ${usiale}.tex > ${usiale}_4x3.tex
 sed -e "s/aspectratio=43/aspectratio=169/g" < ${foss4gna}.tex > ${foss4gna}_16x9.tex
+sed -e "s/aspectratio=43/aspectratio=169/g" < ${isprs}.tex > ${isprs}_16x9.tex
 
 # build PDFs
 tex_to_pdf ${project_582} &
@@ -38,6 +40,8 @@ tex_to_pdf ${usiale} &
 tex_to_pdf ${usiale}_4x3 &
 tex_to_pdf ${foss4gna} &
 tex_to_pdf ${foss4gna}_16x9 &
+tex_to_pdf ${isprs} &
+tex_to_pdf ${isprs}_16x9 &
 
 wait
 
@@ -54,8 +58,11 @@ cp ${usiale}.pdf $build
 cp ${usiale}_4x3.pdf $build
 cp ${foss4gna}.pdf $build
 cp ${foss4gna}_16x9.pdf $build
+cp ${isprs}.pdf $build
+cp ${isprs}_16x9.pdf $build
 
 # remove files for alternative versions
 rm ${project_582}_16x9.* ${project_582}_4x3.*
 rm ${usiale}_4x3.*
 rm ${foss4gna}_16x9.*
+rm ${isprs}_16x9.*
