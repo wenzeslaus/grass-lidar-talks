@@ -17,11 +17,8 @@ function tex_to_pdf {
 set -e
 
 # copy files for the web page
-mkdir -p ${build}/images
-mkdir -p ${build}/images/grass
-cp images/grass/segment_on_counts.png ${build}/images/grass/segment_on_counts.png
-
-cp index.html ${build}/index.html
+cp images/grass/segment_on_counts.png ${build}
+cp index.html petras2016isprs.bib ${build}
 
 # create alternative versions
 sed -e "s/aspectratio=1610/aspectratio=169/g" < ${project_582}.tex > ${project_582}_16x9.tex
