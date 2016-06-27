@@ -193,6 +193,80 @@ available at\\
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Landforms}
+
+\begin{columns}
+\begin{column}{0.3\textwidth}
+
+\begin{itemize}
+  \item \amodule{r.geomorphon}
+  \item geomorphons - a new approach to classification of landform\footnotemark[1]
+\end{itemize}
+
+\footnotesize
+\footnotemark[1]
+Jasiewicz, J., Stepinski, T., 2013,
+Geomorphons - a pattern recognition approach to classification and mapping of landforms, Geomorphology%
+% vol. 182, 147-156 (DOI: 10.1016/j.geomorph.2012.11.005)
+
+\end{column}
+\begin{column}{0.68\textwidth}
+
+\begin{center}
+  \includegraphics[width=\textwidth]{vis/geomorphon_3d}
+\end{center}
+
+\end{column}
+\end{columns}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Free, libre and open source}
+
+\begin{columns}
+\begin{column}{0.4\textwidth}
+
+Scripts and code I'm writing
+
+\begin{itemize}
+  \item review
+  \item re-usable
+  \begin{itemize}
+  \item by other people
+  \item by future myself
+  \end{itemize}
+\end{itemize}
+
+Software I'm using
+
+\begin{itemize}
+  \item driven by needs of users
+  \item longevity
+  \begin{itemize}
+  \item learn now, use forever
+  \item GRASS GIS: over 30 years of development
+  \end{itemize}
+\end{itemize}
+
+\end{column}
+\begin{column}{0.3\textwidth}
+
+\begin{center}
+  \includegraphics[width=\textwidth]{logos/open_science}
+  \\
+  \tiny
+  \textcolor{gray}{Open Science Logo, Greg Emmerich, CC~BY-SA~2.0}
+\end{center}
+
+\end{column}
+\end{columns}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{GRASS GIS}
 
 \begin{columns}
@@ -420,6 +494,176 @@ flags='\textcolor{flg}{e}')
 
 \end{column}
 \end{columns}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Decimation}
+
+\begin{columns}
+\begin{column}{0.58\textwidth}
+
+\begin{itemize}
+  \item \gmodule{v.in.lidar}
+  \begin{itemize}
+  \item filtering same as in \gmodule{r.in.lidar}
+  \end{itemize}
+  \item often more points than we need {\small\\ (research shows, Singh et al. 2015, Petras et al. 2016)}
+  \item interpolation, clustering, \ldots\ are costly
+  \item decimation~$\approx$~sampling
+  \begin{itemize}
+    \item fast count-based as effective as more advanced decimation
+  \end{itemize}
+\end{itemize}
+
+\end{column}
+\begin{column}{0.22\textwidth}
+
+% TODO: UAV image
+
+\begin{center}
+\includegraphics[width=\textwidth]{features/full}
+
+\smallskip
+
+\includegraphics[width=\textwidth]{features/preserve}
+
+\end{center}
+
+\end{column}
+\end{columns}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Local relief model (LRM)}
+
+\begin{itemize}
+  \item \amodule{r.local.relief} (micro-topography, features other than trend)
+\end{itemize}
+
+\begin{center}
+  \includegraphics[width=0.4\textwidth]{vis/elevation}
+  ~~
+  \includegraphics[width=0.4\textwidth]{vis/lrm}\\
+  \footnotesize
+  30-60cm wide, 30cm deep, 60m long gully (resolution 30cm)
+  % 294 rows, 325 cols (88.2m x 97.5m)
+\end{center}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Count-based decimation influence on interpolated elevation}
+
+\newcommand{\imgsize}{0.23\textwidth}
+
+\centering
+\includegraphics[width=\imgsize]{uav_all_shaded_elevation}%
+~%
+\includegraphics[width=\imgsize]{uav_skip_5_shaded_elevation}%
+~%
+\includegraphics[width=\imgsize]{uav_preserve_20_shaded_elevation}%
+~%
+\includegraphics[width=\imgsize]{uav_preserve_100_shaded_elevation}%
+
+\includegraphics[width=\imgsize]{uav_all_lrm_shaded}%
+~%
+\includegraphics[width=\imgsize]{uav_skip_5_lrm_shaded}%
+~%
+\includegraphics[width=\imgsize]{uav_preserve_20_lrm_shaded}%
+~%
+\includegraphics[width=\imgsize]{uav_preserve_100_lrm_shaded}%
+
+\newcommand{\captionfont}{\small}%
+\makebox[\imgsize][c]{\captionfont keep all}%
+~%
+\makebox[\imgsize][c]{\captionfont skip every 5}%
+~%
+\makebox[\imgsize][c]{\captionfont keep every 20}%
+~%
+\makebox[\imgsize][c]{\captionfont keep every 100}%
+
+\makebox[\imgsize][c]{\captionfont 0 \%}%
+~%
+\makebox[\imgsize][c]{\captionfont 20 \%}%
+~%
+\makebox[\imgsize][c]{\captionfont 90 \%}%
+~%
+\makebox[\imgsize][c]{\captionfont 99 \%}%
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Influence of grid-based decimation resolution}
+
+\newcommand{\imgsize}{0.23\textwidth}
+
+\centering
+\includegraphics[width=\imgsize]{uav_grid_points_res_0_1_shaded_elevation}%
+~%
+\includegraphics[width=\imgsize]{uav_grid_points_res_0_3_shaded_elevation}%
+~%
+\includegraphics[width=\imgsize]{uav_grid_points_res_0_9_shaded_elevation}%
+~%
+\includegraphics[width=\imgsize]{uav_grid_points_res_1_5_shaded_elevation}%
+
+\includegraphics[width=\imgsize]{uav_grid_points_res_0_1_lrm_shaded}%
+~%
+\includegraphics[width=\imgsize]{uav_grid_points_res_0_3_lrm_shaded}%
+~%
+\includegraphics[width=\imgsize]{uav_grid_points_res_0_9_lrm_shaded}%
+~%
+\includegraphics[width=\imgsize]{uav_grid_points_res_1_5_lrm_shaded}%
+
+\newcommand{\captionfont}{\small}%
+\makebox[\imgsize][c]{\captionfont grid size 0.1 m}%
+~%
+\makebox[\imgsize][c]{\captionfont grid size 0.3 m}%
+~%
+\makebox[\imgsize][c]{\captionfont grid size 0.9 m}%
+~%
+\makebox[\imgsize][c]{\captionfont grid size 1.5 m}%
+
+\makebox[\imgsize][c]{\captionfont 0 \%}%
+~%
+\makebox[\imgsize][c]{\captionfont 81 \%}%
+~%
+\makebox[\imgsize][c]{\captionfont 98 \%}%
+~%
+\makebox[\imgsize][c]{\captionfont 99 \%}%
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Decimation}
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{decimation/lrm_grid_count_lidar}
+
+\end{center}
+
+interpolations and
+local relief model computations at resolution 0.5 m
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Decimation}
+
+\begin{center}
+
+\includegraphics[width=0.7\textwidth]{decimation/lrm_grid_count_uav}
+
+\end{center}
+
+interpolations and
+local relief model computations at resolution 0.5 m
 
 \end{frame}
 
@@ -655,25 +899,6 @@ $\approx$3~hours, $\approx$10GB of memory \tiny (in-memory mode)
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Local relief model (LRM)}
-
-\begin{itemize}
-  \item \amodule{r.local.relief} (micro-topography, features other than trend)
-\end{itemize}
-
-\begin{center}
-  \includegraphics[width=0.4\textwidth]{vis/elevation}
-  ~~
-  \includegraphics[width=0.4\textwidth]{vis/lrm}\\
-  \footnotesize
-  30-60cm wide, 30cm deep, 60m long gully (resolution 30cm)
-  % 294 rows, 325 cols (88.2m x 97.5m)
-\end{center}
-
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Current state of integration with PDAL}
 
 \begin{columns}
@@ -763,7 +988,6 @@ used in Tangible~Landscape
 \end{frame}
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{}
 
@@ -793,7 +1017,7 @@ used in Tangible~Landscape
 \begin{minipage}{0.5\textwidth}
 \footnotesize
 \href{https://grass.osgeo.org/download/}{%
-Get GRASS GIS 7.1 development version at\\
+Get GRASS GIS 7.3 development version at\\
 \texttt{grass.osgeo.org/download}%
 }
 
@@ -801,15 +1025,17 @@ Get GRASS GIS 7.1 development version at\\
 
 {
 \footnotesize
-Slides and paper available at\\
-\href{http://wenzeslaus.github.io/grass-lidar-talks/}%
-  {\texttt{wenzeslaus.github.io/grass-lidar-talks}}
+\href{https://lists.osgeo.org/listinfo/grass-user}{GRASS user mailing list}\\
+\href{https://lists.osgeo.org/listinfo/grass-user}{\texttt{lists.osgeo.org/listinfo/grass-user}}
 }
+
+\bigskip
 
 {
 \footnotesize
-\href{https://lists.osgeo.org/listinfo/grass-user}{GRASS user mailing list}\\
-\href{https://lists.osgeo.org/listinfo/grass-user}{\texttt{lists.osgeo.org/listinfo/grass-user}}
+Paper and slides available at\\
+\href{http://wenzeslaus.github.io/grass-lidar-talks/}%
+  {\texttt{wenzeslaus.github.io/grass-lidar-talks}}
 }
 \end{minipage}
 &
@@ -835,7 +1061,7 @@ Presented functionality is work done by Vaclav Petras, Markus Metz, and the GRAS
 \bigskip
 
 Thanks to users for feedback and testing, especially to
-Doug Newcomb, Helena Mitasova, Markus Neteler, Laura Belica, and William Hargrove.
+Doug Newcomb, Markus Neteler, Laura Belica, and William Hargrove.
 \end{block}
 
 \end{column}
