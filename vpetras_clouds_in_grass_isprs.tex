@@ -166,51 +166,25 @@ available at\\
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Landforms}
+\begin{frame}{Providing algorithms to the community}
 
 \begin{columns}
-\begin{column}{0.3\textwidth}
+\begin{column}{0.4\textwidth}
+
 
 \begin{itemize}
+  \item new landform recognition approach -- geomorphons
+  % Adam Mickiewicz University and University of Cincinnati
+  \item by Jasiewicz and Stepinski from AMU, Poland and University of Cincinnati, USA
+  \item not just a paper
+    {\tiny Geomorphology, 2013}
+  \item not just public code
   \item \amodule{r.geomorphon}
-  \begin{itemize}
-  \item new landform classification approach
-  \item by Jasiewicz \& Stepinski
-  \end{itemize}
+    \\{\tiny module in GRASS GIS addons repository}
 \end{itemize}
 
 \end{column}
-\begin{column}{0.68\textwidth}
-
-\begin{center}
-  \includegraphics[width=\textwidth]{vis/geomorphon_3d}
-\end{center}
-
-\end{column}
-\end{columns}
-
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Landforms}
-
-\begin{columns}
-\begin{column}{0.3\textwidth}
-
-\begin{itemize}
-  \item \amodule{r.geomorphon}
-  \item geomorphons - a new approach to classification of landform\footnotemark[1]
-\end{itemize}
-
-\footnotesize
-\footnotemark[1]
-Jasiewicz, J., Stepinski, T., 2013,
-Geomorphons - a pattern recognition approach to classification and mapping of landforms, Geomorphology%
-% vol. 182, 147-156 (DOI: 10.1016/j.geomorph.2012.11.005)
-
-\end{column}
-\begin{column}{0.68\textwidth}
+\begin{column}{0.58\textwidth}
 
 \begin{center}
   \includegraphics[width=\textwidth]{vis/geomorphon_3d}
@@ -470,50 +444,13 @@ flags='\textcolor{flg}{e}')
    \item LAS/LAZ to GRASS GIS native vector
     \item data stored in GRASS GIS database
   \end{itemize}
+  \item interpolation, clustering, \ldots\ are costly
+  \item often more points than we need
   \item decimation~$\approx$~thinning~$\approx$~sampling
   \begin{itemize}
     \item count-based decimation (skips points)
     \item grid-based experimental, others needed?  % TODO: grid-based also through r.in.lidar
     \item fast count-based as good as more advanced decimations
-  \end{itemize}
-\end{itemize}
-
-\end{column}
-\begin{column}{0.22\textwidth}
-
-% TODO: UAV image
-
-\begin{center}
-\includegraphics[width=\textwidth]{features/full}
-
-\smallskip
-
-\includegraphics[width=\textwidth]{features/preserve}
-
-\end{center}
-
-\end{column}
-\end{columns}
-
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Decimation}
-
-\begin{columns}
-\begin{column}{0.58\textwidth}
-
-\begin{itemize}
-  \item \gmodule{v.in.lidar}
-  \begin{itemize}
-  \item filtering same as in \gmodule{r.in.lidar}
-  \end{itemize}
-  \item often more points than we need {\small\\ (research shows, Singh et al. 2015, Petras et al. 2016)}
-  \item interpolation, clustering, \ldots\ are costly
-  \item decimation~$\approx$~sampling
-  \begin{itemize}
-    \item fast count-based as effective as more advanced decimation
   \end{itemize}
 \end{itemize}
 
@@ -595,6 +532,11 @@ flags='\textcolor{flg}{e}')
 ~%
 \makebox[\imgsize][c]{\captionfont 99 \%}%
 
+\textcolor{gray}{
+\tiny
+test data (not used in the study)
+}
+
 \end{frame}
 
 
@@ -637,24 +579,16 @@ flags='\textcolor{flg}{e}')
 ~%
 \makebox[\imgsize][c]{\captionfont 99 \%}%
 
+\textcolor{gray}{
+\tiny
+test data (not used in the study)
+}
+
 \end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Decimation}
-
-\begin{center}
-\includegraphics[width=0.7\textwidth]{decimation/lrm_grid_count_lidar}
-
-\end{center}
-
-interpolations and
-local relief model computations at resolution 0.5 m
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Decimation}
+\begin{frame}{Decimating UAV/SfM point cloud}
 
 \begin{center}
 
@@ -664,6 +598,22 @@ local relief model computations at resolution 0.5 m
 
 interpolations and
 local relief model computations at resolution 0.5 m
+72 point per 1 m$^2$
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Decimating lidar point cloud}
+
+\begin{center}
+\includegraphics[width=0.7\textwidth]{decimation/lrm_grid_count_lidar}
+
+\end{center}
+
+interpolations and
+local relief model computations at resolution 0.5 m
+1 point per 1 m$^2$
 
 \end{frame}
 
@@ -698,7 +648,30 @@ local relief model computations at resolution 0.5 m
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Rastersize early}
+\begin{frame}{Raster processing}
+
+% $ cd dist
+% $ cd bin
+% $ ls r.* | wc -l
+% 143
+% $ ls i.* | wc -l
+% 38
+% $ cd ../scripts
+% $ ls r.* | wc -l
+% 20
+% $ ls i.* | wc -l
+% 7
+% $ ls t.rast.* | wc -l
+% 20
+
+% $ cd dist
+% $ ls bin/r.* scripts/r.* | wc -l
+% 163
+% $ ls bin/i.* scripts/i.* | wc -l
+% 45
+% $ ls scripts/t.rast.* | wc -l
+% 20
+
 
 \begin{columns}
 \begin{column}{0.5\textwidth}
@@ -706,8 +679,9 @@ local relief model computations at resolution 0.5 m
 \begin{itemize}
   \item many algorithms are raster-based
   \begin{itemize}
-    \item a lot of data with continuous nature
-    \item natural spatial index
+    \item 163 raster modules
+    \item 45 imagery modules
+    \item 20 spatio-temporal raster modules
   \end{itemize}
   \item example:
   \begin{enumerate}
@@ -805,55 +779,6 @@ local relief model computations at resolution 0.5 m
   \item similarly also for 2D binning: height above a surface, top of the canopy, \ldots
 
 \end{itemize}
-
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Trade-offs}
-
-\begin{columns}
-\begin{column}{0.44\textwidth}
-
-Raster processing
-
-\begin{itemize}
-  \item hight memory (RAM) usage -- fast
-  \item low memory usage (high I/O) -- slow
-\end{itemize}
-
-Vector processing
-
-\begin{itemize}
-  \item slower than raster
-  \begin{itemize}
-  \item e.g., interpolation much slowed than binning
-  \end{itemize}
-  \item hard to make general statements
-\end{itemize}
-
-\end{column}
-\begin{column}{0.44\textwidth}
-
-\includegraphics[width=\textwidth]{grass/range_on_ground_from_north}
-  \begin{center}
-  \tiny
-  \textcolor{gray}{
-  visualization: range from binning on interpolated surface
-  }
-  \end{center}
-
-\bigskip
-
-\textcolor{gray}{
-\footnotesize
-example: binning with base elevation subtraction: $\approx$1000 files, $>9$~billion points
-\\
-$\approx$3~hours, $\approx$10GB of memory \tiny (in-memory mode)
-}
-
-\end{column}
-\end{columns}
 
 \end{frame}
 
