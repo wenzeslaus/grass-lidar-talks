@@ -168,17 +168,21 @@ available at\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Providing algorithms to the community}
 
+\begin{itemize}
+  \item new landform recognition approach -- geomorphons
+\end{itemize}
+
 \begin{columns}
 \begin{column}{0.4\textwidth}
 
-
 \begin{itemize}
-  \item new landform recognition approach -- geomorphons
   % Adam Mickiewicz University and University of Cincinnati
-  \item by Jasiewicz and Stepinski from AMU, Poland and University of Cincinnati, USA
+  \item by Jasiewicz and Stepinski
+    {\tiny from AMU, Poland and University of Cincinnati, USA}
   \item not just a paper
     {\tiny Geomorphology, 2013}
-  \item not just public code
+  \item not just a code
+    \\{\tiny at some webpage}
   \item \amodule{r.geomorphon}
     \\{\tiny module in GRASS GIS addons repository}
 \end{itemize}
@@ -197,50 +201,6 @@ available at\\
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Free, libre and open source}
-
-\begin{columns}
-\begin{column}{0.4\textwidth}
-
-Scripts and code I'm writing
-
-\begin{itemize}
-  \item review
-  \item re-usable
-  \begin{itemize}
-  \item by other people
-  \item by future myself
-  \end{itemize}
-\end{itemize}
-
-Software I'm using
-
-\begin{itemize}
-  \item driven by needs of users
-  \item longevity
-  \begin{itemize}
-  \item learn now, use forever
-  \item GRASS GIS: over 30 years of development
-  \end{itemize}
-\end{itemize}
-
-\end{column}
-\begin{column}{0.3\textwidth}
-
-\begin{center}
-  \includegraphics[width=\textwidth]{logos/open_science}
-  \\
-  \tiny
-  \textcolor{gray}{Open Science Logo, Greg Emmerich, CC~BY-SA~2.0}
-\end{center}
-
-\end{column}
-\end{columns}
-
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{GRASS GIS}
 
 \begin{columns}
@@ -250,6 +210,10 @@ Software I'm using
   \item all in one
   \begin{itemize}
    \item hydrology modeling, image segmentation, point clustering, \ldots
+  \end{itemize}
+  \item driven by needs of users
+  \begin{itemize}
+   \item direct access to development process
   \end{itemize}
   \item from small laptops to supercomputers
   \begin{itemize}
@@ -449,8 +413,7 @@ flags='\textcolor{flg}{e}')
   \item decimation~$\approx$~thinning~$\approx$~sampling
   \begin{itemize}
     \item count-based decimation (skips points)
-    \item grid-based experimental, others needed?  % TODO: grid-based also through r.in.lidar
-    \item fast count-based as good as more advanced decimations
+    \item grid-based experimental, others needed?
   \end{itemize}
 \end{itemize}
 
@@ -596,9 +559,13 @@ test data (not used in the study)
 
 \end{center}
 
-interpolations and
-local relief model computations at resolution 0.5 m
-72 point per 1 m$^2$
+grid-based decimation may give slightly better results
+\textcolor{gray}{
+\tiny
+\\
+at resolution 0.5~m for all raster calculations,
+72~point per 1~m$^2$
+}
 
 \end{frame}
 
@@ -611,9 +578,12 @@ local relief model computations at resolution 0.5 m
 
 \end{center}
 
-interpolations and
-local relief model computations at resolution 0.5 m
-1 point per 1 m$^2$
+fast count-based decimation as good as more advanced grid-based decimation
+\textcolor{gray}{
+\tiny
+at resolution 0.5~m for all raster calculations,
+1~point per 1~m$^2$
+}
 
 \end{frame}
 
