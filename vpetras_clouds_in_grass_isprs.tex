@@ -238,7 +238,7 @@ available at\\
 
 \textcolor{gray}{
 \footnotesize
-latest release 7.0.4 Sunday, May~1,~2016
+latest release 7.0.4 \\May~1,~2016
 }
 
 \end{column}
@@ -269,7 +269,7 @@ latest release 7.0.4 Sunday, May~1,~2016
 
 \Large
 
-Documentation, Command Line (Shell, Bash, cmd.exe):
+Command Line:
 
 \LARGE
 
@@ -438,9 +438,10 @@ flags='\textcolor{flg}{e}')
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Local relief model (LRM)}
+\begin{frame}{Evaluating level of detail}
 
 \begin{itemize}
+  \item Local relief model (LRM)
   \item \amodule{r.local.relief} (micro-topography, features other than trend)
 \end{itemize}
 
@@ -452,53 +453,6 @@ flags='\textcolor{flg}{e}')
   30-60cm wide, 30cm deep, 60m long gully (resolution 30cm)
   % 294 rows, 325 cols (88.2m x 97.5m)
 \end{center}
-
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Count-based decimation influence on interpolated elevation}
-
-\newcommand{\imgsize}{0.23\textwidth}
-
-\centering
-\includegraphics[width=\imgsize]{uav_all_shaded_elevation}%
-~%
-\includegraphics[width=\imgsize]{uav_skip_5_shaded_elevation}%
-~%
-\includegraphics[width=\imgsize]{uav_preserve_20_shaded_elevation}%
-~%
-\includegraphics[width=\imgsize]{uav_preserve_100_shaded_elevation}%
-
-\includegraphics[width=\imgsize]{uav_all_lrm_shaded}%
-~%
-\includegraphics[width=\imgsize]{uav_skip_5_lrm_shaded}%
-~%
-\includegraphics[width=\imgsize]{uav_preserve_20_lrm_shaded}%
-~%
-\includegraphics[width=\imgsize]{uav_preserve_100_lrm_shaded}%
-
-\newcommand{\captionfont}{\small}%
-\makebox[\imgsize][c]{\captionfont keep all}%
-~%
-\makebox[\imgsize][c]{\captionfont skip every 5}%
-~%
-\makebox[\imgsize][c]{\captionfont keep every 20}%
-~%
-\makebox[\imgsize][c]{\captionfont keep every 100}%
-
-\makebox[\imgsize][c]{\captionfont 0 \%}%
-~%
-\makebox[\imgsize][c]{\captionfont 20 \%}%
-~%
-\makebox[\imgsize][c]{\captionfont 90 \%}%
-~%
-\makebox[\imgsize][c]{\captionfont 99 \%}%
-
-\textcolor{gray}{
-\tiny
-test data (not used in the study)
-}
 
 \end{frame}
 
@@ -681,12 +635,11 @@ at resolution 0.5~m for all raster calculations,
 \begin{column}{0.38\textwidth}
 
 \begin{itemize}
-  \item stacked 2D rasters
-  \item challenging to visualize
   \item same principles as in~2D
   \begin{itemize}
   \item e.g. 3D raster map algebra
   \end{itemize}
+  \item challenging to visualize
 \end{itemize}
 
 \end{column}
@@ -713,11 +666,7 @@ at resolution 0.5~m for all raster calculations,
 
 \begin{itemize}
   \item \gmodule{r3.in.lidar}
-  \item proportional count
-  \begin{itemize}
-    \item count per 3D cell relative to the count per vertical column
-  \end{itemize}
-  \item intensity can be used instead of count
+  \item count per 3D cell relative to the count per vertical column
 \end{itemize}
 
 \end{column}
@@ -746,8 +695,6 @@ at resolution 0.5~m for all raster calculations,
 \begin{itemize}
   \item \gmodule{r3.in.lidar}, option \textit{base\_raster}
   \item height reduced by 2D raster values
-  \item similarly also for 2D binning: height above a surface, top of the canopy, \ldots
-
 \end{itemize}
 
 \end{frame}
@@ -794,7 +741,7 @@ at resolution 0.5~m for all raster calculations,
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Current state of integration with PDAL}
+\begin{frame}{Integration with PDAL}
 
 \begin{columns}
 \begin{column}{0.5\textwidth}
@@ -804,19 +751,6 @@ at resolution 0.5~m for all raster calculations,
   \item Point Data Abstraction Library
   \item format conversions
   \item processing, filtering
- \end{itemize}
-\end{block}
-
-\begin{block}{Experimental integration}
- \begin{itemize}
-  \item \module{v.in.pdal}
-  \begin{itemize}
-    \item next: \module{r.in.pdal}, \module{r3.in.pdal}
-  \end{itemize}
-  \item runs PDAL filters during import
-  \begin{itemize}
-    \item filters are followed by GRASS processing
-  \end{itemize}
  \end{itemize}
 \end{block}
 
@@ -846,11 +780,6 @@ at resolution 0.5~m for all raster calculations,
   \item OpenKinect libfreenect2
   \item Point Cloud Library (PCL)
   \item GRASS GIS libraries
-  \begin{itemize}
-    \item C API
-    \item raster processing
-    \item regularized spline with tension interpolation
-  \end{itemize}
  \end{itemize}
 \end{block}
 
@@ -891,13 +820,9 @@ used in Tangible~Landscape
 
 \begin{block}{Summary}
  \begin{itemize}
-  \item rasterize early
-  \item GRASS modules can work with large data
-  \begin{itemize}
-    \item sometimes a special flag is needed
-    \item if not, report a bug
-  \end{itemize}
-  \item 3D rasters, PDAL integration
+  \item decimation or \emph{rasterize early} approach for large point clouds
+  \item 3D rasters
+  \item PDAL integration
  \end{itemize}
 \end{block}
 
